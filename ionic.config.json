@@ -1,0 +1,7 @@
+{
+  "name": "reserva-projetores",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
