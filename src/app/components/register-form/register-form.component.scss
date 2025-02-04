@@ -1,0 +1,25 @@
+.register-form {
+   ion-item {
+     margin: 10px 0;
+   }
+
+   .register-buttons {
+     margin-top: 20px;
+     text-align: center;
+
+     ion-button {
+       --background: #3880ff; /* Cor do botão */
+       --color: #fff; /* Cor do texto */
+       border-radius: 8px;
+       font-size: 16px;
+     }
+   }
+ }
+
+ ion-header {
+   --background: #f4f4f4;
+   ion-toolbar {
+     --color: #222;
+     font-weight: bold;
+   }
+ }

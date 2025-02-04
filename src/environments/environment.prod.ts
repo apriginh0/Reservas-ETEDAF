@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://reservas-etedaf-api.onrender.com/api'
 };

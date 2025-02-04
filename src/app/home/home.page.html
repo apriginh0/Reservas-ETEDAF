@@ -1,20 +1,32 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Home</ion-title>
+    <app-logout-button slot="end"></app-logout-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="container vertical">
+    <ion-card (click)="navigateTo('/reserva-sala')">
+      <ion-card-header>
+        <ion-card-title>Reserva de Sala</ion-card-title>
+      </ion-card-header>
+    </ion-card>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Reserva de Equipamentos <hr>
+          (Num futuro não tão, tão distante)</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card *ngIf="isAdmin" (click)="navigateTo('/gestao')">
+      <ion-card-header>
+        <ion-card-title>Gestão</ion-card-title>
+      </ion-card-header>
+    </ion-card>
   </div>
 </ion-content>
+
+
+

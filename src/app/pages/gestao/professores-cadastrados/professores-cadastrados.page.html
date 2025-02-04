@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" (click)="voltar()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Professores Cadastrados</ion-title>
+    <app-logout-button slot="end"></app-logout-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p>Lista de professores cadastrados.</p>
+
+  <ion-list>
+    <ion-item *ngFor="let user of approvedUsers">
+      <ion-label>
+        <p>{{ user.name }} ({{ user.email }})</p>
+        <p><strong>Função:</strong> {{ user.role }}</p>
+      </ion-label>
+      <ion-button color="primary" (click)="changeRole(user.id, user.role)">
+        Mudar para {{ user.role === 'teacher' ? 'Admin' : 'Teacher' }}
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+

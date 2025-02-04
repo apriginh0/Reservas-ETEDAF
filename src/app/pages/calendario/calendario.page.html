@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" (click)="voltar()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Selecione a Data</ion-title>
+    <app-logout-button slot="end"></app-logout-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p>{{ breadcrumb }}</p>
+
+  <!-- Campo de Data -->
+  <ion-item>
+    <ion-label for="dataSelecionada" position="stacked"></ion-label>
+    <ion-datetime
+      id="dataSelecionada"
+      name="dataSelecionada"
+      [min]="minDate"
+      [max]="maxDate"
+      [presentation]="'date'"
+      [(ngModel)]="selectedDate"
+      (ionChange)="onDateSelected($event)"
+    ></ion-datetime>
+  </ion-item>
+
+  <!-- Data Selecionada -->
+  <div *ngIf="selectedDate" class="selected-date">
+    <h3>Data Selecionada:</h3>
+    <p>{{ selectedDate | date }}</p>
+    <!-- Botões lado a lado -->
+    <div class="buttons-container">
+      <ion-button (click)="abrirOpcoesAulas()">Escolher Aulas</ion-button>
+      <ion-button color="danger" (click)="abrirOpcoesCancelamento()">Cancelar Aula</ion-button>
+    </div>
+  </div>
+
+  <!-- Seção de Cancelamento de Aulas -->
+  <div *ngIf="exibirAulasReservadas">
+    <ion-item>
+      <ion-label for="aulasReservadasSelecionadas">Aulas Reservadas</ion-label>
+      <ion-select
+        id="aulasReservadasSelecionadas"
+        name="aulasReservadasSelecionadas"
+        [(ngModel)]="aulasSelecionadasParaCancelar"
+        multiple="true"
+      >
+        <ion-select-option
+          *ngFor="let aula of aulasReservadasUsuario; let i = index"
+          [id]="'aulaReservada-' + i"
+          [value]="aula"
+        >
+          {{ aula }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="block" color="danger" (click)="cancelarAulasSelecionadas()">
+      Cancelar Aulas Selecionadas
+    </ion-button>
+  </div>
+
+  <!-- Seção de Aulas -->
+  <div *ngIf="exibirAulas">
+    <!-- Campo de Seleção de Aulas -->
+    <ion-item>
+      <ion-label for="aulasSelecionadas">Aulas</ion-label>
+      <ion-select
+        id="aulasSelecionadas"
+        name="aulasSelecionadas"
+        [(ngModel)]="aulasSelecionadas"
+        multiple="true"
+      >
+        <ion-select-option
+          *ngFor="let aula of aulasDisponiveis; let i = index"
+          [id]="'aula-' + i"
+          [value]="aula"
+        >
+          {{ aula }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Inputs para Componente Curricular, Ano/Turma e Objetivo -->
+    <div *ngIf="aulasSelecionadas.length > 0">
+      <ion-item>
+        <ion-label for="componenteCurricular" position="stacked">Componente Curricular</ion-label>
+        <ion-input
+          id="componenteCurricular"
+          name="componenteCurricular"
+          [(ngModel)]="componenteCurricular"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label for="anoTurma" position="stacked">Ano/Turma</ion-label>
+        <ion-input id="anoTurma" name="anoTurma" [(ngModel)]="anoTurma"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label for="objetivo" position="stacked">Objetivo</ion-label>
+        <ion-textarea id="objetivo" name="objetivo" [(ngModel)]="objetivo"></ion-textarea>
+      </ion-item>
+
+      <!-- Botão para Agendar -->
+      <ion-button id="botaoAgendar" name="botaoAgendar" expand="block" (click)="agendar()">
+        Agendar
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
+
+
+

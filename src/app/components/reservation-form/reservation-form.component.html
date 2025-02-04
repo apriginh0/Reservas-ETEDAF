@@ -1,0 +1,36 @@
+<h2>Reserva de Projetor e Caixa de Som</h2>
+<form (ngSubmit)="onSubmit()">
+  <label for="date">Data:</label>
+  <input type="date" id="date" [(ngModel)]="reservation.date" name="date" required />
+
+  <label for="time">Horário:</label>
+  <input type="time" id="time" [(ngModel)]="reservation.time" name="time" required />
+
+  <label for="component">Componente Curricular:</label>
+  <input type="text" id="component" [(ngModel)]="reservation.component" name="component" required />
+
+  <label for="classGroup">Turma/Ano:</label>
+  <input type="text" id="classGroup" [(ngModel)]="reservation.classGroup" name="classGroup" required />
+
+  <label for="objective">Objetivo da Aula:</label>
+  <textarea id="objective" [(ngModel)]="reservation.objective" name="objective" required></textarea>
+
+  <label for="projector">Projetor:</label>
+  <select id="projector" [(ngModel)]="reservation.projector" name="projector" required>
+    <option value="Projetor 01">Projetor 01</option>
+    <option value="Projetor 02">Projetor 02</option>
+    <option value="Projetor 03">Projetor 03</option>
+  </select>
+
+  <label for="speaker">Caixa de Som:</label>
+  <select id="speaker" [(ngModel)]="reservation.speaker" name="speaker" required>
+    <option value="Caixa de Som 01">Caixa de Som 01</option>
+    <option value="Caixa de Som 02">Caixa de Som 02</option>
+  </select>
+
+  <label for="reservedBy">Professor:</label>
+  <input type="text" id="reservedBy" [(ngModel)]="reservation.reservedBy" name="reservedBy" placeholder="Seu nome" required />
+
+  <button type="submit">Confirmar Reserva</button>
+</form>
+

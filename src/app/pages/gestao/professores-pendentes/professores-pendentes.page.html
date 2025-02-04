@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" (click)="voltar()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Professores Pendentes</ion-title>
+    <app-logout-button slot="end"></app-logout-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let user of pendingUsers">
+      <ion-label>
+        <p>{{ user.name }} ({{ user.email }})</p>
+      </ion-label>
+
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="auto">
+            <ion-button color="success" (click)="approveUser(user.id)">Aprovar</ion-button>
+          </ion-col>
+          <ion-col size="auto">
+            <ion-button color="danger" (click)="rejectUser(user.id)">Rejeitar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>
+

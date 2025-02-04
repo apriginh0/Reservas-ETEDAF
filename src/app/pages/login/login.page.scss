@@ -1,0 +1,36 @@
+.container {
+   text-align: center;
+   margin-top: 15%;
+
+   .logo {
+     width: 150px;
+   }
+
+   .title {
+     font-size: 1.2em;
+     margin-bottom: 20px;
+   }
+ }
+
+ .modal-content {
+   padding: 20px;
+
+   ion-input {
+     margin-bottom: 15px;
+   }
+ }
+
+ .buttons-container {
+   div {
+    text-align: center;
+   }
+ }
+.register-button {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  ion-button{
+    --ion-color-contrast: black !important;
+    width: 80%;
+  }
+}

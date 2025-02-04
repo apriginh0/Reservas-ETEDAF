@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" (click)="voltar()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Reserva de Sala</ion-title>
+    <app-logout-button slot="end"></app-logout-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="salas.length > 0; else loading">
+    <ion-list>
+      <ion-item *ngFor="let sala of salas" (click)="selecionarSala(sala.id, sala.name)">
+        <ion-label>{{ sala.name }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ng-template #loading>
+    <ion-spinner></ion-spinner>
+    <p>Carregando salas...</p>
+  </ng-template>
+</ion-content>
+

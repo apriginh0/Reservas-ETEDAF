@@ -1,0 +1,41 @@
+
+
+ ion-item {
+   --background: #e3f2fd;
+   border-radius: 8px;
+   margin: 0.5rem 0;
+ }
+ .selected-date {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f0f8ff;
+  border: 1px solid #d1e7ff;
+  border-radius: 8px;
+  text-align: center;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #007bff;
+  }
+
+  p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+ion-item {
+  --background: #3b6787;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+
+ion-title {
+  text-align: center;
+}
+
+::ng-deep .calendar-day {
+  color: black !important;
+}
