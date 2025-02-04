@@ -13,8 +13,8 @@
 
   <ion-list>
     <ion-item *ngFor="let user of approvedUsers">
-      <ion-label>
-        <p>{{ user.name }} ({{ user.email }})</p>
+      <ion-label color="primary">
+        <p color="primary">{{ user.name }} ({{ user.email }})</p>
         <p><strong>Função:</strong> {{ user.role }}</p>
       </ion-label>
       <ion-button color="primary" (click)="changeRole(user.id, user.role)">

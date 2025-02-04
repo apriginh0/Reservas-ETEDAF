@@ -28,7 +28,7 @@
   <!-- Data Selecionada -->
   <div *ngIf="selectedDate" class="selected-date">
     <h3>Data Selecionada:</h3>
-    <p>{{ selectedDate | date }}</p>
+    <p>{{ selectedDate | date: 'dd/MM/yyyy' }}</p>
     <!-- Botões lado a lado -->
     <div class="buttons-container">
       <ion-button (click)="abrirOpcoesAulas()">Escolher Aulas</ion-button>
