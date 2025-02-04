@@ -11,6 +11,8 @@ $RECYCLE.BIN/
 
 *.log
 log.txt
+*.out
+*.pid
 
 
 /.sourcemaps
@@ -22,6 +24,10 @@ log.txt
 /www
 /platforms
 /plugins
+
+# Angular
+/.angular/cache/
+/.angular/local/
 
 # Compiled output
 /dist
@@ -68,3 +74,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+.fseventsd
+.Spotlight-V100
+.Trashes
+
