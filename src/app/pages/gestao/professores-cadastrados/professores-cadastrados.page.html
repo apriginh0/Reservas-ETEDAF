@@ -12,7 +12,7 @@
   <p>Lista de professores cadastrados.</p>
 
   <ion-list>
-    <ion-item *ngFor="let user of approvedUsers">
+    <ion-item *ngFor="let user of approvedUsers" class="custom-item">
       <ion-label color="primary">
         <p color="primary">{{ user.name }} ({{ user.email }})</p>
         <p><strong>Função:</strong> {{ user.role }}</p>

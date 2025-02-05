@@ -39,12 +39,13 @@
   <!-- Seção de Cancelamento de Aulas -->
   <div *ngIf="exibirAulasReservadas">
     <ion-item>
-      <ion-label for="aulasReservadasSelecionadas">Aulas Reservadas</ion-label>
+      <ion-label slot="start" for="aulasReservadasSelecionadas">Aulas Reservadas</ion-label>
       <ion-select
         id="aulasReservadasSelecionadas"
         name="aulasReservadasSelecionadas"
         [(ngModel)]="aulasSelecionadasParaCancelar"
         multiple="true"
+        class="select-overlay"
       >
         <ion-select-option
           *ngFor="let aula of aulasReservadasUsuario; let i = index"
@@ -65,12 +66,13 @@
   <div *ngIf="exibirAulas">
     <!-- Campo de Seleção de Aulas -->
     <ion-item>
-      <ion-label for="aulasSelecionadas">Aulas</ion-label>
+      <ion-label slot="start" for="aulasSelecionadas">Aulas</ion-label>
       <ion-select
         id="aulasSelecionadas"
         name="aulasSelecionadas"
         [(ngModel)]="aulasSelecionadas"
         multiple="true"
+        class="select-overlay"
       >
         <ion-select-option
           *ngFor="let aula of aulasDisponiveis; let i = index"

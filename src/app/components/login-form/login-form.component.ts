@@ -12,6 +12,7 @@ export class LoginFormComponent {
     email: '',
     password: '',
   };
+  isPasswordRecoveryEnabled = false;
 
   errorMessage: string = '';
 

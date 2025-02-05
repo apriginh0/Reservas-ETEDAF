@@ -1,3 +1,21 @@
 ion-title {
    text-align: center;
  }
+
+.custom-item {
+  /* Define o container como flex e ajusta o espaçamento */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* Ajusta a largura do ion-label e ion-button */
+  ion-label {
+    flex: 0 0 60%; /* flex-grow | flex-shrink | flex-basis */
+    max-width: 60%; /* Garante que não ultrapasse 60% */
+  }
+
+  ion-button {
+    flex: 0 0 38%;
+    max-width: 38%;
+  }
+}
