@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ETEDAF</string>
+    <string name="title_activity_main">ETEDAF</string>
+    <string name="package_name">br.com.etedaf.reservas</string>
+    <string name="custom_url_scheme">br.com.etedaf.reservas</string>
+</resources>
