@@ -1,3 +1,7 @@
+plugins {
+  id 'com.android.application'
+  id 'org.jetbrains.kotlin.android'
+}
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('keystore.properties')
 if (keystorePropertiesFile.exists()) {
@@ -22,14 +26,6 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    buildTypes {
-        release {
-          signingConfig signingConfigs.release
-          minifyEnabled true   // Ofusca e remove código não utilizado
-          shrinkResources true // Remove recursos não utilizados (imagens, strings, etc.)
-          proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     signingConfigs {
       release {
         storeFile file("${System.properties['user.home']}/Android/android-keystore/etedaf.jks") // Caminho relativo à pasta do projeto
@@ -37,6 +33,14 @@ android {
         keyAlias keystoreProperties['keyAlias']
         keyPassword keystoreProperties['keyPassword']
       }
+    }
+    buildTypes {
+        release {
+          signingConfig signingConfigs.release
+          minifyEnabled true   // Ofusca e remove código não utilizado
+          shrinkResources true // Remove recursos não utilizados (imagens, strings, etc.)
+          proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
@@ -51,7 +55,7 @@ dependencies {
     implementation project(':capacitor-android')
 
     // Garante que a versão do Kotlin seja a correta
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.25"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
