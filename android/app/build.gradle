@@ -6,6 +6,13 @@ def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('keystore.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    println "keystore.properties carregado com sucesso!"
+    println "storeFile: ${keystoreProperties['storeFile']}"
+    println "storePassword: ${keystoreProperties['storePassword']}"
+    println "keyAlias: ${keystoreProperties['keyAlias']}"
+    println "keyPassword: ${keystoreProperties['keyPassword']}"
+} else {
+    println "keystore.properties não encontrado!"
 }
 
 apply plugin: 'com.android.application'
@@ -28,7 +35,7 @@ android {
     }
     signingConfigs {
       release {
-        storeFile file(keystoreProperties['storeFile'])
+        storeFile rootProject.file(keystoreProperties['storeFile'])
         storePassword keystoreProperties['storePassword']
         keyAlias keystoreProperties['keyAlias']
         keyPassword keystoreProperties['keyPassword']
