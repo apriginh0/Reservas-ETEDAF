@@ -28,7 +28,7 @@ android {
     }
     signingConfigs {
       release {
-        storeFile file("${System.properties['user.home']}/Android/android-keystore/etedaf.jks") // Caminho relativo à pasta do projeto
+        storeFile file(keystoreProperties['storeFile'])
         storePassword keystoreProperties['storePassword']
         keyAlias keystoreProperties['keyAlias']
         keyPassword keystoreProperties['keyPassword']
