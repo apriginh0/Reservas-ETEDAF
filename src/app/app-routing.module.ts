@@ -36,6 +36,10 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'login', // Coloque isso por último
+  },
+  {
+    path: 'privacidade',
+    loadChildren: () => import('./pages/privacidade/privacidade.module').then( m => m.PrivacidadePageModule)
   }
 ];
 
