@@ -1,0 +1,11 @@
+{
+	"appId": "br.com.etedaf.reservas",
+	"appName": "ETEDAF",
+	"webDir": "www",
+	"server": {
+		"allowNavigation": [
+			"reservas-etedaf-api.onrender.com"
+		],
+		"androidScheme": "https"
+	}
+}

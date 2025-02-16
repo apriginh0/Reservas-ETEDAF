@@ -2,18 +2,6 @@ plugins {
   id 'com.android.application'
   id 'org.jetbrains.kotlin.android'
 }
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('keystore.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-    println "keystore.properties carregado com sucesso!"
-    println "storeFile: ${keystoreProperties['storeFile']}"
-    println "storePassword: ${keystoreProperties['storePassword']}"
-    println "keyAlias: ${keystoreProperties['keyAlias']}"
-    println "keyPassword: ${keystoreProperties['keyPassword']}"
-} else {
-    println "keystore.properties não encontrado!"
-}
 
 apply plugin: 'com.android.application'
 
@@ -33,17 +21,8 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    signingConfigs {
-      release {
-        storeFile rootProject.file(keystoreProperties['storeFile'])
-        storePassword keystoreProperties['storePassword']
-        keyAlias keystoreProperties['keyAlias']
-        keyPassword keystoreProperties['keyPassword']
-      }
-    }
     buildTypes {
         release {
-          signingConfig signingConfigs.release
           minifyEnabled true   // Ofusca e remove código não utilizado
           shrinkResources true // Remove recursos não utilizados (imagens, strings, etc.)
           proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
