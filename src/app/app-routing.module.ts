@@ -38,6 +38,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/privacidade/privacidade.module').then( m => m.PrivacidadePageModule)
   },
   {
+    path: 'exclusao',
+    loadChildren: () => import('./pages/exclusao/exclusao.module').then( m => m.ExclusaoPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login', // Coloque isso por último
   },
