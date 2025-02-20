@@ -53,3 +53,9 @@ ion-title {
 ::ng-deep .calendar-day {
   color: black !important;
 }
+
+#botaoAgendar {
+  margin-bottom: 1rem; // Aumenta o espaçamento inferior
+  height: 50px; // Aumenta a altura do botão para melhor usabilidade
+  font-size: 1.2rem; // Aumenta o tamanho do texto dentro do botão
+}
