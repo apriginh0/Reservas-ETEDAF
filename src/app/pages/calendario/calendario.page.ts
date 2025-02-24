@@ -34,6 +34,8 @@ export class CalendarioPage implements OnInit {
 
   aulasExibidas: { nome: string; reservada: boolean }[] = []; // Lista de aulas com status de reserva
 
+  turmas: string[] = ['1º DG - A', '1º DG - B', '1º ST', '2º DG - A', '2º DG - B', '2º ST', '3º DG', '3º ST'];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,

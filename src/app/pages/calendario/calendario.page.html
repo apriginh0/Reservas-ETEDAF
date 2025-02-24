@@ -96,8 +96,12 @@
       </ion-item>
 
       <ion-item>
-        <ion-label for="anoTurma" position="stacked">Ano/Turma</ion-label>
-        <ion-input id="anoTurma" name="anoTurma" [(ngModel)]="anoTurma"></ion-input>
+        <ion-label position="stacked">Ano/Turma</ion-label>
+        <ion-select id="anoTurma" name="anoTurma" [(ngModel)]="anoTurma" interface="action-sheet">
+          <ion-select-option *ngFor="let turma of turmas" [value]="turma">
+            {{ turma }}
+          </ion-select-option>
+        </ion-select>
       </ion-item>
 
       <ion-item>
