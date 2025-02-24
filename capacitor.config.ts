@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'br.com.etedaf.reservas',
-  appName: 'ETEDAF',
+  appName: 'On Lab',
   webDir: 'www',
   server: {
     allowNavigation: ["reservas-etedaf-api.onrender.com"],
