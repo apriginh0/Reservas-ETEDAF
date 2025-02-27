@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReservationFormComponent } from './components/reservation-form/reservation-form.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { CorsInterceptor } from './interceptors/cors.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,9 +29,12 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    provideHttpClient(withInterceptorsFromDi())],
+    { provide: HTTP_INTERCEPTORS, useClass: CorsInterceptor, multi: true },
+    provideHttpClient()
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

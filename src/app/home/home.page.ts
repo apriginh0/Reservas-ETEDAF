@@ -1,34 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   isAdmin: boolean = false;
+  private userSub!: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
     this.checkUserRole();
   }
 
   // Verifica o papel do usuário
-  async checkUserRole() {
-    const token = await this.authService.getToken();
-    if (token) {
-      try {
-        // Decodificar o token para pegar o "role" (alternativa ao JWT decoding)
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        this.isAdmin = payload.role === 'admin';
-      } catch (error) {
-        console.error('Erro ao decodificar o token:', error);
+  checkUserRole() {
+    this.userSub = this.authService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.isAdmin = user?.role === 'admin';
+      },
+      error: (error) => {
+        console.error('Erro ao obter usuário:', error);
       }
-    } else {
-      console.warn('Nenhum token encontrado');
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.userSub) {
+      this.userSub.unsubscribe();
     }
   }
 

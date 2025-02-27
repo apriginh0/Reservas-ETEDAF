@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Location } from '@angular/common';
+import { map, switchMap } from 'rxjs';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import * as moment from 'moment-timezone';
@@ -81,12 +82,17 @@ export class CalendarioPage implements OnInit {
     // Formatando a data para o formato brasileiro (DD-MM-YYYY)
     this.selectedDate = format(rawDate, 'yyyy-MM-dd', { locale: ptBR });
 
-    this.apiService.getReservationsByDate(this.selectedDate, this.salaId).subscribe(
-      (reservas) => {
+    this.authService.getCurrentUser().pipe(
+      switchMap(user => {
+        const userId = user.id;
+        return this.apiService.getReservationsByDate(this.selectedDate, this.salaId).pipe(
+          map(reservas => ({ reservas, userId }))
+        );
+      })
+    ).subscribe(
+      ({reservas, userId}) => {
         // Criar um novo array para restaurar todas as aulas disponíveis
         const aulasTotais = ['Aula 01', 'Aula 02', 'Aula 03', 'Aula 04', 'Aula 05', 'Aula 06', 'Aula 07', 'Aula 08', 'Aula 09'];
-        // Pegando o ID do usuário logado
-        const userId = this.authService.getUserId();
         // Filtrar apenas as reservas do dia selecionado
         const reservasDoDia = reservas.filter((reserva: any) => reserva.date === this.selectedDate);
         // Reservas do usuário logado
@@ -115,9 +121,7 @@ export class CalendarioPage implements OnInit {
           reservada: aulasReservadasUsuario.includes(aula), // True se for uma reserva do usuário
         }));
       },
-      (error) => {
-        console.error('Erro ao buscar reservas:', error);
-      }
+      (error) => console.error('Erro ao buscar reservas:', error)
     );
   }
 
@@ -127,11 +131,15 @@ export class CalendarioPage implements OnInit {
       return;
     }
 
-    // Buscar todas as reservas do dia e da sala selecionada
-    this.apiService.getReservationsByDate(this.selectedDate, this.salaId).subscribe(
-      (reservas) => {
-        const userId = this.authService.getUserId(); // Obter ID do usuário logado
-
+    this.authService.getCurrentUser().pipe(
+      switchMap(user => {
+        const userId = user.id;
+        return this.apiService.getReservationsByDate(this.selectedDate, this.salaId).pipe(
+          map(reservas => ({ reservas, userId }))
+        );
+      })
+    ).subscribe(
+      ({reservas, userId}) => {
         // Filtrar apenas as reservas feitas no dia selecionado
         const reservasDoDia = reservas.filter((reserva: any) => reserva.date === this.selectedDate);
 

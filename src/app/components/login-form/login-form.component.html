@@ -9,10 +9,15 @@
     <ion-input type="password" [(ngModel)]="loginData.password" name="password" required></ion-input>
   </ion-item>
 
-  <ion-button type="submit" color="light">Entrar</ion-button>
+  <ion-button [disabled]="isLoading" type="submit" color="light">
+    <ion-spinner *ngIf="isLoading"></ion-spinner>
+    Entrar
+  </ion-button>
 
   <!-- Mensagem de erro caso o login falhe -->
-  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <ion-text color="danger" *ngIf="errorMessage">
+    <p>{{ errorMessage }}</p>
+  </ion-text>
 
   <!-- Texto para recuperar senha -->
   <p class="forgot-password" *ngIf="isPasswordRecoveryEnabled" (click)="onForgotPassword()">Esqueci minha senha</p>

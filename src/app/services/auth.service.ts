@@ -1,75 +1,96 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private isAuthenticated = new BehaviorSubject<boolean>(false);
+  private currentUser = new BehaviorSubject<any>(null);
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.initToken(); // Inicializa o token
+    this.checkAuthStatus(); // Inicializa o token
   }
 
-  private initToken() {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      this.isAuthenticated.next(true);
-    }
+  fetchCurrentUser(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/auth/me`, { withCredentials: true }).pipe(
+      tap((user) => {
+        console.log("user:", user);
+        this.currentUser.next(user);
+        console.log("this.currentUser:", this.currentUser.next(user));
+      }),
+      catchError((error) => {
+        if (error.status === 404) {
+          console.error('Endpoint /auth/me não encontrado');
+          this.router.navigate(['/login']);
+        }
+        return throwError(() => error);
+      })
+    );
+  }
+
+  private checkAuthStatus() {
+    this.fetchCurrentUser().subscribe({
+      next: (user) => {
+        this.currentUser.next(user);
+        if (!user) this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Erro ao verificar autenticação:', err);
+        this.currentUser.next(null);
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
-      tap((response) => {
-        if (response?.token) {
-          this.saveToken(response.token);
-        }
-        if (response?.user?.id) {
-          this.saveUserId(response.user.id);
-        }
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password }, { withCredentials: true }).pipe(
+      tap(() => {
+        this.fetchCurrentUser().subscribe(); // Busca dados do usuário após login
       })
     );
   }
 
   register(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/register`, data);
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, data, { withCredentials: true });
   }
 
-  saveToken(token: string) {
-    localStorage.setItem('token', token);
-    this.isAuthenticated.next(true);
-  }
-
-  saveUserId(userId: number) {
-    localStorage.setItem('userId', userId.toString());
-  }
-
-  getUserId(): number | null {
-    const userId = localStorage.getItem('userId');
-    return userId ? parseInt(userId, 10) : null;
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token'); // Busca diretamente no localStorage
-  }
-
+  // Método de logout atualizado
   logout() {
-    localStorage.removeItem('token');
-    this.isAuthenticated.next(false);
-    this.router.navigate(['/login']);
+    this.http.post(`${this.apiUrl}/auth/logout`, {}, {
+      withCredentials: true
+    }).subscribe({
+      complete: () => {
+        this.currentUser.next(null); // Limpa o usuário
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Erro no logout:', error);
+        this.currentUser.next(null);
+        this.router.navigate(['/login']);
+      }
+    });
   }
+
 
   isLoggedIn(): Observable<boolean> {
-    return this.isAuthenticated.asObservable();
+    return this.currentUser.pipe(
+      map(user => !!user) // Converte user para booleano
+    );
+  }
+
+  getCurrentUser(): Observable<any> {
+    return this.currentUser.asObservable();
   }
 
   forgotPassword(email: string) {
-    return this.http.post(`${this.apiUrl}/auth/forgot-password`, { email });
+    return this.http.post(`${this.apiUrl}/auth/forgot-password`, { email }, { withCredentials: true });
   }
 
 }

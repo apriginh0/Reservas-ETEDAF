@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +14,7 @@ export class LoginFormComponent {
     password: '',
   };
   isPasswordRecoveryEnabled = false;
-
+  isLoading = false; // Controle de estado de carregamento
   errorMessage: string = '';
 
   constructor(
@@ -22,15 +23,29 @@ export class LoginFormComponent {
   ) {}
 
   onSubmit() {
-    this.authService.login(this.loginData.email, this.loginData.password).subscribe({
-      next: (res) => {
-        this.router.navigate(['/home']); // Redireciona para a página principal
-      },
-      error: (err) => {
-        console.error('Erro no login:', err);
-        this.errorMessage = 'Credenciais inválidas. Tente novamente!';
-      }
-    });
+    // Validação básica
+    if (!this.loginData.email || !this.loginData.password) {
+      this.errorMessage = 'Preencha todos os campos obrigatórios!';
+      return;
+    }
+
+    this.isLoading = true; // Ativa spinner/loading
+    this.errorMessage = '';
+
+    this.authService.login(this.loginData.email, this.loginData.password)
+      .pipe(
+        finalize(() => this.isLoading = false) // Desativa spinner em qualquer caso
+      )
+      .subscribe({
+        next: () => {
+          // Navega após confirmar que o usuário está carregado
+          this.router.navigate(['/home'])
+        },
+        error: (err) => {
+          console.error('Erro no login:', err);
+          this.handleLoginError(err);
+        }
+      });
   }
 
   onForgotPassword() {
@@ -39,19 +54,34 @@ export class LoginFormComponent {
       return;
     }
 
-    this.authService.forgotPassword(this.loginData.email).subscribe({
-      next: () => {
-        this.errorMessage = ''; // Limpar mensagem de erro anterior
-        alert('Um e-mail de redefinição de senha foi enviado.');
-      },
-      error: (err) => {
-        console.error('Erro ao solicitar redefinição de senha:', err);
-        this.errorMessage = 'Erro ao processar a solicitação. Tente novamente.';
-      },
-    });
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.authService.forgotPassword(this.loginData.email)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe({
+        next: () => {
+          alert('Um e-mail de redefinição de senha foi enviado.');
+        },
+        error: (err) => {
+          console.error('Erro ao solicitar redefinição:', err);
+          this.errorMessage = 'Erro ao enviar e-mail. Verifique o endereço.';
+        }
+      });
   }
 
+  private handleLoginError(err: any) {
+    // Mensagens de erro específicas
+    if (err.status === 401) {
+      this.errorMessage = 'E-mail ou senha incorretos!';
+    } else if (err.status === 0) {
+      this.errorMessage = 'Sem conexão com o servidor. Tente novamente mais tarde.';
+    } else {
+      this.errorMessage = 'Erro inesperado. Tente novamente.';
+    }
+  }
 }
-
 
 
