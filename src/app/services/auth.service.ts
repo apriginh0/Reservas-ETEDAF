@@ -39,7 +39,7 @@ export class AuthService {
     this.fetchCurrentUser().subscribe({
       next: (user) => {
         this.currentUser.next(user);
-        if (!user) this.router.navigate(['/login']);
+        if (user) this.router.navigate(['/home']);
       },
       error: (err) => {
         console.error('Erro ao verificar autenticação:', err);
@@ -52,7 +52,7 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password }, { withCredentials: true }).pipe(
       tap(() => {
-        this.fetchCurrentUser().subscribe(); // Busca dados do usuário após login
+        this.checkAuthStatus(); // Força revalidação após login
       })
     );
   }
@@ -66,7 +66,7 @@ export class AuthService {
     this.http.post(`${this.apiUrl}/auth/logout`, {}, {
       withCredentials: true
     }).subscribe({
-      complete: () => {
+      next: () => {
         this.currentUser.next(null); // Limpa o usuário
         this.router.navigate(['/login']);
       },
