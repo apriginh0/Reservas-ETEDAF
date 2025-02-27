@@ -66,7 +66,7 @@ export class AuthService {
     this.http.post(`${this.apiUrl}/auth/logout`, {}, {
       withCredentials: true
     }).subscribe({
-      next: () => {
+      complete: () => {
         this.currentUser.next(null); // Limpa o usuário
         this.router.navigate(['/login']);
       },
