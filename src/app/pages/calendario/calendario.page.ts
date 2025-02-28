@@ -6,6 +6,8 @@ import { Location } from '@angular/common';
 import { map, switchMap } from 'rxjs';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { ViewChild, ElementRef } from '@angular/core';
+import { Keyboard } from '@capacitor/keyboard';
 import * as moment from 'moment-timezone';
 
 @Component({
@@ -37,13 +39,24 @@ export class CalendarioPage implements OnInit {
 
   turmas: string[] = ['1º DG - A', '1º DG - B', '1º ST', '2º DG - A', '2º DG - B', '2º ST', '3º DG', '3º ST'];
 
+  @ViewChild('componenteCurricular', { read: ElementRef })
+  componenteCurricularInput!: ElementRef;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
     private apiService: ApiService,
     private authService: AuthService
-  ) {}
+  ) {
+    Keyboard.addListener('keyboardWillShow', (info) => {
+      document.documentElement.style.setProperty('--keyboard-height', `${info.keyboardHeight}px`);
+    });
+
+    Keyboard.addListener('keyboardWillHide', () => {
+      document.documentElement.style.removeProperty('--keyboard-height');
+    });
+  }
 
   ngOnInit() {
     const currentDate = new Date();
@@ -241,6 +254,14 @@ export class CalendarioPage implements OnInit {
     this.exibirAulasReservadas = false;
     this.aulasReservadasUsuario = [];
     this.aulasSelecionadasParaCancelar = [];
+  }
+
+  scrollToInput() {
+    const inputElement = this.componenteCurricularInput.nativeElement;
+    inputElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center' // Centraliza o input na tela
+    });
   }
 }
 
