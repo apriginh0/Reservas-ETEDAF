@@ -42,12 +42,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/exclusao/exclusao.module').then( m => m.ExclusaoPageModule)
   },
   {
-    path: '**',
-    redirectTo: 'login', // Coloque isso por último
+    path: 'erro',
+    loadChildren: () => import('./pages/erro/erro.module').then(m => m.ErroPageModule)
   },
   {
-    path: 'erro',
-    loadChildren: () => import('./pages/erro/erro.module').then( m => m.ErroPageModule)
+    path: '**',
+    redirectTo: 'login', // Coloque isso por último
   },
 ];
 
