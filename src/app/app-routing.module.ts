@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { ReservationFormComponent } from './components/reservation-form/reservation-form.component';
+import { PreloadAllModules, RouterModule, Routes, NavigationCancel, NavigationError } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard'; // Importar o AuthGuard
+import { Router } from '@angular/router'; // Importe o Router
 
 const routes: Routes = [
   {
@@ -54,5 +54,21 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationCancel) {
+        console.warn('Navegação cancelada:', event.reason);
+        // Exemplo: Redirecionar para login se o motivo for autenticação
+        if (event.reason === 'AuthGuard: Usuário não autenticado') {
+          this.router.navigate(['/login']);
+        }
+      }
+      if (event instanceof NavigationError) {
+        console.error('Erro de navegação:', event.error);
+        this.router.navigate(['/erro']); // Crie uma rota para erros se necessário
+      }
+    });
+  }
+}
 

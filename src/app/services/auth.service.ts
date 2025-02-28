@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, throwError } from 'rxjs';
+import { catchError, throwError, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class AuthService {
         console.log("this.currentUser:", this.currentUser.next(user));
       }),
       catchError((error) => {
+        this.currentUser.next(null);
         if (error.status === 404) {
           console.error('Endpoint /auth/me não encontrado');
           this.router.navigate(['/login']);
@@ -38,8 +40,12 @@ export class AuthService {
   private checkAuthStatus() {
     this.fetchCurrentUser().subscribe({
       next: (user) => {
-        this.currentUser.next(user);
-        if (user) this.router.navigate(['/home']);
+        if (user) {
+          this.currentUser.next(user);
+          this.router.navigate(['/home']); // ✅ Redireciona se autenticado
+        } else {
+          this.router.navigate(['/login']);
+        }
       },
       error: (err) => {
         console.error('Erro ao verificar autenticação:', err);
@@ -51,9 +57,7 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password }, { withCredentials: true }).pipe(
-      tap(() => {
-        this.fetchCurrentUser().subscribe(); // Busca dados do usuário após login
-      })
+      switchMap(() => this.fetchCurrentUser())
     );
   }
 
