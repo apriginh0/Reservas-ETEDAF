@@ -45,6 +45,10 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'login', // Coloque isso por último
   },
+  {
+    path: 'erro',
+    loadChildren: () => import('./pages/erro/erro.module').then( m => m.ErroPageModule)
+  },
 ];
 
 
