@@ -131,7 +131,7 @@ export class CalendarioPage implements OnInit {
     ).subscribe(
       ({reservas, userId}) => {
         // Criar um novo array para restaurar todas as aulas disponíveis
-        const aulasTotais = ['Aula 01', 'Aula 02', 'Aula 03', 'Aula 04', 'Aula 05', 'Aula 06', 'Aula 07', 'Aula 08', 'Aula 09'];
+        const aulasTotais = ['Aula 01', 'Aula 02', 'Aula 03', 'Aula 04', 'Aula 05', 'Aula 06', 'Aula 07', 'Aula 08', 'Aula 09', 'Noite 1', 'Noite 2', 'Noite 3', 'Noite 4', 'Noite 5'];
         // Filtrar apenas as reservas do dia selecionado
         const reservasDoDia = reservas.filter((reserva: any) => reserva.date === this.selectedDate);
         // Reservas do usuário logado
