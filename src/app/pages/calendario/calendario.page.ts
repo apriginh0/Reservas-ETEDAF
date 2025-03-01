@@ -4,7 +4,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Location } from '@angular/common';
 import { map, switchMap } from 'rxjs';
-import { format } from 'date-fns';
+import { format, nextDay, startOfToday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { ViewChild, ElementRef } from '@angular/core';
 import { Keyboard } from '@capacitor/keyboard';
@@ -65,19 +65,10 @@ export class CalendarioPage implements OnInit {
   }
 
   ngOnInit() {
-    const currentDate = new Date();
-    // Data mínima: 1 semana antes da data atual
-    const min = new Date(currentDate);
-    min.setDate(min.getDate() - 7);
-    // Data máxima: 1 semana depois da data atual
-    const max = new Date(currentDate);
-    max.setDate(max.getDate() + 7);
-
-    // Formate as datas no padrão ISO (yyyy-MM-ddTHH:mm:ss)
-    this.minDate = min.toISOString().split('T')[0] + 'T00:00:00';
-    this.maxDate = max.toISOString().split('T')[0] + 'T23:59:59';
+    this.calcularDatas(); // ✅ Calcula datas baseadas no sábado
 
     //-----------------------------------------------------------
+    // Resto do código (navegação, salaId, etc.) permanece igual:
     const navigationState = this.router.getCurrentNavigation()?.extras.state;
     this.salaNome = navigationState?.['nome'] || null;
     if (this.salaNome) {
@@ -88,6 +79,35 @@ export class CalendarioPage implements OnInit {
     if (id) {
       this.salaId = Number(id);
     }
+
+    // Atualiza automaticamente no sábado à meia-noite
+    setInterval(() => {
+      const agora = new Date();
+      if (agora.getDay() === 6 && agora.getHours() === 0 && agora.getMinutes() === 0) {
+        this.calcularDatas(); // ✅ Recalcula as datas
+      }
+    }, 60000); // Verifica a cada minuto
+  }
+
+  calcularDatas() {
+    const hoje = startOfToday(); // Data atual sem hora
+    let proximoSabado: Date;
+
+    // Se hoje for sábado (dia 6), use hoje. Senão, busque o próximo sábado.
+    if (hoje.getDay() === 6) { // 6 = Sábado
+      proximoSabado = new Date(hoje); // Hoje já é sábado
+    } else {
+      proximoSabado = nextDay(hoje, 6); // Próximo sábado
+    }
+
+    // Define minDate como o sábado à 00:00
+    this.minDate = proximoSabado.toISOString();
+
+    // Define maxDate como a sexta-feira seguinte à 23:59
+    const maxDate = new Date(proximoSabado);
+    maxDate.setDate(proximoSabado.getDate() + 6);
+    maxDate.setHours(23, 59, 59);
+    this.maxDate = maxDate.toISOString();
   }
 
   onDateSelected(event: any) {
@@ -279,7 +299,7 @@ export class CalendarioPage implements OnInit {
 
       // Scroll para posição centralizada
       this.ionContent.scrollToPoint(0, inputPosition - 150, 300);
-    }, 300); // ✅ Delay para sincronizar com a abertura do teclado
+    }, 300); // Delay para sincronizar com a abertura do teclado
   }
 }
 
