@@ -32,7 +32,7 @@ export class CalendarioPage implements OnInit {
   aulasReservadasUsuario: string[] = []; // Apenas aulas reservadas pelo usuário
   aulasSelecionadasParaCancelar: string[] = []; // Aulas que o usuário deseja cancelar
 
-  aulasDisponiveis: string[] = ['Aula 01', 'Aula 02', 'Aula 03', 'Aula 04', 'Aula 05', 'Aula 06', 'Aula 07', 'Aula 08', 'Aula 09']; // Aulas disponíveis
+  aulasDisponiveis: string[] = ['Aula 01', 'Aula 02', 'Aula 03', 'Aula 04', 'Aula 05', 'Aula 06', 'Aula 07', 'Aula 08', 'Aula 09', 'Noite 1', 'Noite 2', 'Noite 3', 'Noite 4', 'Noite 5']; // Aulas disponíveis
   aulasSelecionadas: string[] = []; // Aulas escolhidas
   componenteCurricular: string = ''; // Componente curricular
   anoTurma: string = ''; // Ano/Turma
@@ -40,7 +40,7 @@ export class CalendarioPage implements OnInit {
 
   aulasExibidas: { nome: string; reservada: boolean }[] = []; // Lista de aulas com status de reserva
 
-  turmas: string[] = ['1º DG - A', '1º DG - B', '1º ST', '2º DG - A', '2º DG - B', '2º ST', '3º DG', '3º ST'];
+  turmas: string[] = ['1º DG - A', '1º DG - B', '1º ST', '2º DG - A', '2º DG - B', '2º ST', '3º DG', '3º ST', 'SUB ST 1', 'SUB ST 2', 'SUB ST 3', 'SUB DG 3'];
 
   @ViewChild('componenteCurricularInput', { read: ElementRef })
   componenteCurricularInput!: ElementRef;
