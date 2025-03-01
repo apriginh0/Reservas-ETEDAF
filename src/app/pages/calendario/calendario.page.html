@@ -44,7 +44,7 @@
         id="aulasReservadasSelecionadas"
         name="aulasReservadasSelecionadas"
         [(ngModel)]="aulasSelecionadasParaCancelar"
-        multiple="true"
+        [multiple]="true"
         class="select-overlay"
       >
         <ion-select-option
@@ -108,7 +108,12 @@
 
       <ion-item>
         <ion-label for="objetivo" position="stacked">Objetivo</ion-label>
-        <ion-textarea id="objetivo" name="objetivo" [(ngModel)]="objetivo"></ion-textarea>
+        <ion-textarea
+        (ionFocus)="scrollToInput()"
+        id="objetivo"
+        name="objetivo"
+        [(ngModel)]="objetivo"
+        ></ion-textarea>
       </ion-item>
 
       <!-- Botão para Agendar -->

@@ -8,6 +8,8 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { ViewChild, ElementRef } from '@angular/core';
 import { Keyboard } from '@capacitor/keyboard';
+import { IonContent } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import * as moment from 'moment-timezone';
 
 @Component({
@@ -16,6 +18,7 @@ import * as moment from 'moment-timezone';
   styleUrls: ['./calendario.page.scss'],
 })
 export class CalendarioPage implements OnInit {
+  keyboardHeight: number = 0;
   breadcrumb: string = 'ETEDAF > Reserva de Salas'; // Valor padrão
   salaId: number = 0; // ID da sala selecionada
   selectedDate: string = ''; // Data selecionada pelo usuário
@@ -39,17 +42,20 @@ export class CalendarioPage implements OnInit {
 
   turmas: string[] = ['1º DG - A', '1º DG - B', '1º ST', '2º DG - A', '2º DG - B', '2º ST', '3º DG', '3º ST'];
 
-  @ViewChild('componenteCurricular', { read: ElementRef })
+  @ViewChild('componenteCurricularInput', { read: ElementRef })
   componenteCurricularInput!: ElementRef;
+  @ViewChild(IonContent) ionContent!: IonContent;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
     private apiService: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private platform: Platform
   ) {
     Keyboard.addListener('keyboardWillShow', (info) => {
+      this.keyboardHeight = info.keyboardHeight;
       document.documentElement.style.setProperty('--keyboard-height', `${info.keyboardHeight}px`);
     });
 
@@ -256,12 +262,24 @@ export class CalendarioPage implements OnInit {
     this.aulasSelecionadasParaCancelar = [];
   }
 
-  scrollToInput() {
-    const inputElement = this.componenteCurricularInput.nativeElement;
-    inputElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center' // Centraliza o input na tela
-    });
+  async scrollToInput() {
+    if (!this.componenteCurricularInput?.nativeElement) {
+      console.error('Input não encontrado!'); //
+      return;
+    }
+    // Aguardar um pequeno delay para garantir que o teclado está visível
+    setTimeout(async () => {
+      const inputElement = this.componenteCurricularInput.nativeElement;
+      const scrollEl = await this.ionContent.getScrollElement();
+
+      // Cálculo da posição (ajustado para evitar valores negativos)
+      const inputRect = inputElement.getBoundingClientRect();
+      const scrollTop = scrollEl.scrollTop;
+      const inputPosition = inputRect.top + scrollTop;
+
+      // Scroll para posição centralizada
+      this.ionContent.scrollToPoint(0, inputPosition - 150, 300);
+    }, 300); // ✅ Delay para sincronizar com a abertura do teclado
   }
 }
 
