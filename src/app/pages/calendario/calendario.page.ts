@@ -89,28 +89,22 @@ export class CalendarioPage implements OnInit {
   calcularDatas() {
     const hoje = startOfToday(); // Data atual sem hora
     let ultimoSabado: Date;
-    console.log('Data atual:', hoje.toISOString()); // ✅ Log da data atual
 
     // Se hoje for sábado (dia 6), use hoje. Senão, busque o próximo sábado.
     if (hoje.getDay() === 6) { // 6 = Sábado
       ultimoSabado = new Date(hoje); // Hoje já é sábado
-      console.log(hoje.getDay());
-      console.log('Hoje é sábado. Usando data atual:', ultimoSabado.toISOString());
     } else {
       ultimoSabado = previousDay(hoje, 6); // Sábado anterior
-      console.log('Sábado anterior encontrado:', ultimoSabado.toISOString());
     }
 
     // Define minDate como o sábado à 00:00
     this.minDate = ultimoSabado.toISOString();
-    console.log('minDate definido:', this.minDate);
 
     // Define maxDate como a sexta-feira seguinte à 23:59
     const maxDate = new Date(ultimoSabado);
     maxDate.setDate(ultimoSabado.getDate() + 6);
     maxDate.setHours(23, 59, 59);
     this.maxDate = maxDate.toISOString();
-    console.log('maxDate definido:', this.maxDate);
   }
 
   onDateSelected(event: any) {
@@ -136,7 +130,8 @@ export class CalendarioPage implements OnInit {
         // Criar um novo array para restaurar todas as aulas disponíveis
         const aulasTotais = ['Aula 01', 'Aula 02', 'Aula 03', 'Aula 04', 'Aula 05', 'Aula 06', 'Aula 07', 'Aula 08', 'Aula 09', 'Noite 1', 'Noite 2', 'Noite 3', 'Noite 4', 'Noite 5'];
         // Filtrar apenas as reservas do dia selecionado
-        const reservasDoDia = reservas.filter((reserva: any) => reserva.date === this.selectedDate);
+        const reservasDoDia = reservas.filter((reserva: any) => reserva.date === this.selectedDate &&
+        reserva.classId === this.salaId);
         // Reservas do usuário logado
         const reservasUsuario = reservasDoDia.filter((reserva: any) => reserva.teacherId === userId);
         const aulasReservadasUsuario = reservasUsuario
