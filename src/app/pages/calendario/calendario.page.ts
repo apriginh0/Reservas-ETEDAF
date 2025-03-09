@@ -4,7 +4,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Location } from '@angular/common';
 import { map, switchMap } from 'rxjs';
-import { format, nextDay, startOfToday } from 'date-fns';
+import { format, previousDay, startOfToday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { ViewChild, ElementRef } from '@angular/core';
 import { Keyboard } from '@capacitor/keyboard';
@@ -82,32 +82,35 @@ export class CalendarioPage implements OnInit {
 
     // Atualiza automaticamente no sábado à meia-noite
     setInterval(() => {
-      const agora = new Date();
-      if (agora.getDay() === 6 && agora.getHours() === 0 && agora.getMinutes() === 0) {
-        this.calcularDatas(); // ✅ Recalcula as datas
-      }
+      this.calcularDatas();
     }, 60000); // Verifica a cada minuto
   }
 
   calcularDatas() {
     const hoje = startOfToday(); // Data atual sem hora
-    let proximoSabado: Date;
+    let ultimoSabado: Date;
+    console.log('Data atual:', hoje.toISOString()); // ✅ Log da data atual
 
     // Se hoje for sábado (dia 6), use hoje. Senão, busque o próximo sábado.
     if (hoje.getDay() === 6) { // 6 = Sábado
-      proximoSabado = new Date(hoje); // Hoje já é sábado
+      ultimoSabado = new Date(hoje); // Hoje já é sábado
+      console.log(hoje.getDay());
+      console.log('Hoje é sábado. Usando data atual:', ultimoSabado.toISOString());
     } else {
-      proximoSabado = nextDay(hoje, 6); // Próximo sábado
+      ultimoSabado = previousDay(hoje, 6); // Sábado anterior
+      console.log('Sábado anterior encontrado:', ultimoSabado.toISOString());
     }
 
     // Define minDate como o sábado à 00:00
-    this.minDate = proximoSabado.toISOString();
+    this.minDate = ultimoSabado.toISOString();
+    console.log('minDate definido:', this.minDate);
 
     // Define maxDate como a sexta-feira seguinte à 23:59
-    const maxDate = new Date(proximoSabado);
-    maxDate.setDate(proximoSabado.getDate() + 6);
+    const maxDate = new Date(ultimoSabado);
+    maxDate.setDate(ultimoSabado.getDate() + 6);
     maxDate.setHours(23, 59, 59);
     this.maxDate = maxDate.toISOString();
+    console.log('maxDate definido:', this.maxDate);
   }
 
   onDateSelected(event: any) {
