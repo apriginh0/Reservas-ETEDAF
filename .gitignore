@@ -44,6 +44,9 @@ yarn-error.log
 android/app/debug/
 android/build/
 
+# Build Angular/Ionic output (caso esteja versionando)
+www/
+
 # IDEs and editors
 .idea/
 .project
