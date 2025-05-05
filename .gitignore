@@ -40,6 +40,10 @@ log.txt
 npm-debug.log
 yarn-error.log
 
+# Capacitor build outputs
+android/app/debug/
+android/build/
+
 # IDEs and editors
 .idea/
 .project
