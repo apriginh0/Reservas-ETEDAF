@@ -1,0 +1,16 @@
+{
+	"appId": "br.com.etedaf.reservas",
+	"appName": "On Lab",
+	"webDir": "www",
+	"server": {
+		"allowNavigation": [
+			"reservas-etedaf-api.onrender.com"
+		],
+		"androidScheme": "https"
+	},
+	"plugins": {
+		"Keyboard": {
+			"resize": "body"
+		}
+	}
+}

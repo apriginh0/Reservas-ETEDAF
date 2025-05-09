@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      Reservas - {{ sala.name }} em {{ formatarData(data) }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fechar()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="none">
+    <ion-item *ngFor="let linha of resultados" [color]="linha.professor === 'Disponível' ? 'success' : 'danger'" class="item-reserva">
+      <ion-avatar slot="start">
+        <ion-icon
+          [name]="linha.professor === 'Disponível' ? 'person-circle-outline' : 'finger-print-outline'"
+          size="large"
+        ></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ linha.aula }}</h2>
+        <p>{{ linha.professor }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+

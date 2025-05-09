@@ -1,3 +1,11 @@
 ion-title {
    text-align: center;
  }
+
+ion-item {
+  margin: 1rem;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(1, 26, 255, 0.199);
+  --border-style: none;
+}

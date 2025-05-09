@@ -36,5 +36,10 @@ export class ApiService {
   deleteReservation(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/class_reservations/${id}`, { withCredentials: true});
   }
+
+  getProfessores(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/approved-teachers`, { withCredentials: true });
+  }
+
 }
 

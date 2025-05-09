@@ -5,8 +5,11 @@
 }
 
 ion-card {
-  width: 90%; /* Ajusta a largura dos cards */
-  margin: 10px 0; /* Adiciona espaçamento entre os cards */
+  width: 93%;
+  margin: 0.5rem;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(1, 26, 255, 0.199);
 }
 ion-card-title{
   color: #0a0a0a;

@@ -13,6 +13,19 @@
       </ion-card-header>
     </ion-card>
 
+    <ion-card (click)="navigateTo('/agendamentos')">
+      <ion-card-header>
+        <ion-card-title>Agendamentos Efetuados</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+
+    <ion-card *ngIf="isAdmin" (click)="navigateTo('/gestao')">
+      <ion-card-header>
+        <ion-card-title>Gestão</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
     <ion-card>
       <ion-card-header>
         <ion-card-title>Reserva de Equipamentos <hr>
@@ -20,11 +33,6 @@
       </ion-card-header>
     </ion-card>
 
-    <ion-card *ngIf="isAdmin" (click)="navigateTo('/gestao')">
-      <ion-card-header>
-        <ion-card-title>Gestão</ion-card-title>
-      </ion-card-header>
-    </ion-card>
   </div>
 </ion-content>
 

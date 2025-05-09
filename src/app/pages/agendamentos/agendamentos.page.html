@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="start" (click)="voltar()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Agendamentos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let sala of salas" class="sala-card">
+    <ion-card-header (click)="toggleSala(sala.id)">
+      <ion-card-title>
+        <ion-icon name="business-outline"></ion-icon>
+        {{ sala.name }}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content *ngIf="salaAbertaId === sala.id">
+      <ion-grid>
+        <ion-row class="cabecalho-linha">
+          <ion-col size="4"><strong>Data</strong></ion-col>
+          <ion-col size="8"><strong>Status</strong></ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let dia of diasDoMes">
+          <ion-col size="4"><p>{{ formatarData(dia) }}</p></ion-col>
+          <ion-col size="8">
+            <ion-button
+              expand="block"
+              size="small"
+              color="medium"
+              fill="outline"
+              (click)="abrirModal(sala, dia)"
+            >
+              <ion-icon slot="start" name="eye-outline"></ion-icon>
+              <h2>Ver detalhes</h2>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+
+
+
