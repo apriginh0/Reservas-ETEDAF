@@ -50,6 +50,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/erro/erro.module').then(m => m.ErroPageModule)
   },
   {
+    path: 'reset-password',
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login', // Coloque isso por último
   },

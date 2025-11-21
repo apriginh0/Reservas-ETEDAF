@@ -6,6 +6,10 @@
   <div class="buttons-container">
     <div>
       <app-login-form></app-login-form>
+      <div class="forgot-password-container ion-text-center ion-margin-top">
+        <a (click)="openForgotPasswordModal()"
+          style="cursor: pointer; color: var(--ion-color-medium); text-decoration: underline;">Esqueci minha senha</a>
+      </div>
     </div>
     <div class="register-button">
       <ion-button expand="block" (click)="openRegisterModal()" color="light">CADASTRO</ion-button>
@@ -23,4 +27,3 @@
     </p>
   </div>
 </ion-content>
-
