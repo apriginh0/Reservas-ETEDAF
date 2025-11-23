@@ -44,13 +44,14 @@ export class AuthService {
           this.currentUser.next(user);
           this.router.navigate(['/home']); // ✅ Redireciona se autenticado
         } else {
-          this.router.navigate(['/login']);
+          // Não redirecionar automaticamente para login aqui.
+          // Deixe o AuthGuard proteger as rotas privadas.
         }
       },
       error: (err) => {
         console.error('Erro ao verificar autenticação:', err);
         this.currentUser.next(null);
-        this.router.navigate(['/login']);
+        // Não redirecionar automaticamente para login aqui.
       }
     });
   }
