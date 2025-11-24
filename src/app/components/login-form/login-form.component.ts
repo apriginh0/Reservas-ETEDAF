@@ -32,7 +32,8 @@ export class LoginFormComponent {
     this.isLoading = true; // Ativa spinner/loading
     this.errorMessage = '';
 
-    this.authService.login(this.loginData.email, this.loginData.password)
+    const email = this.loginData.email.trim().toLowerCase();
+    this.authService.login(email, this.loginData.password)
       .pipe(
         finalize(() => this.isLoading = false) // Desativa spinner em qualquer caso
       )

@@ -24,7 +24,7 @@ export class AuthService {
       tap((user) => {
         console.log("user:", user);
         this.currentUser.next(user);
-        console.log("this.currentUser:", this.currentUser.next(user));
+        // console.log("this.currentUser:", this.currentUser.next(user)); // Removido log redundante/errado
       }),
       catchError((error) => {
         this.currentUser.next(null);
@@ -58,6 +58,11 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password }, { withCredentials: true }).pipe(
+      tap(response => {
+        if (response.accessToken) {
+          localStorage.setItem('access_token', response.accessToken);
+        }
+      }),
       switchMap(() => this.fetchCurrentUser())
     );
   }
@@ -72,11 +77,13 @@ export class AuthService {
       withCredentials: true
     }).subscribe({
       next: () => {
+        localStorage.removeItem('access_token'); // Remove token do storage
         this.currentUser.next(null); // Limpa o usuário
         this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Erro no logout:', error);
+        localStorage.removeItem('access_token'); // Garante limpeza mesmo com erro
         this.currentUser.next(null);
         this.router.navigate(['/login']);
       }
@@ -86,7 +93,7 @@ export class AuthService {
 
   isLoggedIn(): Observable<boolean> {
     return this.currentUser.pipe(
-      map(user => !!user) // Converte user para booleano
+      map(user => !!user || !!localStorage.getItem('access_token')) // Verifica user OU token no storage
     );
   }
 
