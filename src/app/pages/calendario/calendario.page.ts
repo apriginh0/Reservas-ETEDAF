@@ -40,7 +40,7 @@ export class CalendarioPage implements OnInit {
 
   aulasExibidas: { nome: string; reservada: boolean }[] = []; // Lista de aulas com status de reserva
 
-  turmas: string[] = ['1º DG - A', '1º DG - B', '1º ST', '2º DG - A', '2º DG - B', '2º ST', '3º DG', '3º ST', 'SUB ST 1', 'SUB ST 2', 'SUB ST 3', 'SUB DG 3'];
+  turmas: string[] = ['1º DG - A', '1º DG - B', '1º ST - A', '1º ST - B', '2º DG - A', '2º DG - B', '2º ST', '3º DG - A', '3º DG - B', '3º ST', 'SUB ST 1', 'SUB ST 2', 'SUB ST 3', 'SUB DG 3'];
 
   @ViewChild('componenteCurricularInput', { read: ElementRef })
   componenteCurricularInput!: ElementRef;
@@ -126,12 +126,12 @@ export class CalendarioPage implements OnInit {
         );
       })
     ).subscribe(
-      ({reservas, userId}) => {
+      ({ reservas, userId }) => {
         // Criar um novo array para restaurar todas as aulas disponíveis
         const aulasTotais = ['Aula 01', 'Aula 02', 'Aula 03', 'Aula 04', 'Aula 05', 'Aula 06', 'Aula 07', 'Aula 08', 'Aula 09', 'Noite 1', 'Noite 2', 'Noite 3', 'Noite 4', 'Noite 5'];
         // Filtrar apenas as reservas do dia selecionado
         const reservasDoDia = reservas.filter((reserva: any) => reserva.date === this.selectedDate &&
-        reserva.classId === this.salaId);
+          reserva.classId === this.salaId);
         // Reservas do usuário logado
         const reservasUsuario = reservasDoDia.filter((reserva: any) => reserva.teacherId === userId);
         const aulasReservadasUsuario = reservasUsuario
@@ -176,7 +176,7 @@ export class CalendarioPage implements OnInit {
         );
       })
     ).subscribe(
-      ({reservas, userId}) => {
+      ({ reservas, userId }) => {
         // Filtrar apenas as reservas feitas no dia selecionado
         const reservasDoDia = reservas.filter((reserva: any) => reserva.date === this.selectedDate);
 
