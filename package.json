@@ -8,6 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:android": "ng build && npx cap sync android",
+    "build:android:emulator": "ng build --configuration emulator && npx cap sync android",
     "cap:sync": "npx cap sync android",
     "cap:open:android": "npx cap open android",
     "watch": "ng build --watch --configuration development",

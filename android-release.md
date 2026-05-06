@@ -31,12 +31,17 @@ Este arquivo resume o processo recomendado para gerar, validar e publicar a prox
 
 ## Teste no emulador
 
-1. Abra o projeto Android:
+Se voce quer validar o app Android contra o backend local antes do deploy, use o modo de emulador:
+
+1. Deixe o backend local rodando na porta `5000`.
+2. No projeto Ionic, rode:
+   - `npm run build:android:emulator`
+3. Abra o projeto Android:
    - `npm run cap:open:android`
-2. Espere o Gradle Sync terminar.
-3. Escolha um emulador Android.
-4. Rode o app em modo `debug`.
-5. Valide pelo menos estes fluxos:
+4. Espere o Gradle Sync terminar.
+5. Escolha um emulador Android.
+6. Rode o app em modo `debug`.
+7. Valide pelo menos estes fluxos:
    - login
    - restauracao de sessao ao fechar e abrir o app
    - criacao de reserva
@@ -48,6 +53,12 @@ Este arquivo resume o processo recomendado para gerar, validar e publicar a prox
    - rolagem automatica ao selecionar data
    - rolagem automatica ao tocar em `Escolher aulas`
    - rolagem automatica ao tocar em `Cancelar aula`
+
+Observacoes:
+- nesse modo, o app usa `http://10.0.2.2:5000/api`
+- no emulador Android, `localhost` aponta para o proprio emulador
+- `10.0.2.2` e o alias correto para acessar o seu computador hospedeiro
+- para validar a configuracao exata de producao antes da publicacao, rode `npm run build:android`
 
 ## Gerar o AAB no Android Studio
 
@@ -81,6 +92,7 @@ Observacao:
 - assinatura feita com a mesma keystore da versao anterior
 - app abrindo e autenticando normalmente no emulador
 - nenhuma URL local como `localhost` presente no build de producao
+- antes de gerar o bundle final, rode novamente `npm run build:android`
 
 ## Subir o AAB para a Play Store
 
@@ -110,5 +122,6 @@ Se esta atualizacao mexe com autenticacao, reservas e experiencia mobile, o cami
 
 - `npm run test:ci`
 - `npm run build:android`
+- `npm run build:android:emulator`
 - `npm run cap:sync`
 - `npm run cap:open:android`
