@@ -1,22 +1,30 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button slot="start" (click)="voltar()">
+    <ion-button slot="start" fill="clear" (click)="voltar()">
       <ion-icon name="chevron-back-outline"></ion-icon>
     </ion-button>
-    <ion-title>Gestão</ion-title>
+    <ion-title>Gestao</ion-title>
     <app-logout-button slot="end"></app-logout-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <h2>Gestão de Usuários</h2>
-  <div>
-    <ion-button routerLink="/gestao/professores-pendentes" expand="full">
-      Professores Pendentes
-    </ion-button>
-    <ion-button routerLink="/gestao/professores-cadastrados" expand="full">
-      Professores Cadastrados
-    </ion-button>
+<ion-content>
+  <div class="page-shell">
+    <section class="page-hero">
+      <p class="eyebrow">Administracao</p>
+      <h1>Gestao de usuarios</h1>
+      <p>Acompanhe solicitacoes pendentes e ajuste o perfil de acesso dos professores aprovados.</p>
+    </section>
+
+    <div class="management-grid">
+      <ion-button class="management-button" routerLink="/gestao/professores-pendentes" expand="block">
+        <ion-icon slot="start" name="time-outline"></ion-icon>
+        Professores Pendentes
+      </ion-button>
+      <ion-button class="management-button" routerLink="/gestao/professores-cadastrados" expand="block" color="secondary">
+        <ion-icon slot="start" name="people-outline"></ion-icon>
+        Professores Cadastrados
+      </ion-button>
+    </div>
   </div>
 </ion-content>
-

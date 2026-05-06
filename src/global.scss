@@ -20,7 +20,6 @@
 
 /* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
@@ -36,6 +35,101 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 // @import "@ionic/angular/css/palettes/dark.system.css";
 
+html,
+body,
+ion-app {
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  background: var(--app-bg);
+  color: var(--ion-text-color);
+}
+
+ion-content {
+  --background: var(--app-bg);
+}
+
 ion-toolbar {
-   padding-top: 3vh !important;
+  --background: rgba(255, 255, 255, 0.84);
+  --color: var(--ion-text-color);
+  padding-top: max(env(safe-area-inset-top), 0.75rem) !important;
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(12, 91, 140, 0.08);
+  box-shadow: 0 10px 22px rgba(13, 42, 63, 0.06);
+}
+
+ion-title {
+  font-size: clamp(1.05rem, 3vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+ion-button {
+  --border-radius: 18px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+ion-card,
+ion-item {
+  --border-color: transparent;
+}
+
+.page-shell {
+  padding: 1.25rem 1rem 2rem;
+}
+
+.page-hero {
+  background: var(--app-hero);
+  color: #fff;
+  border-radius: var(--app-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--app-shadow);
+  margin-bottom: 1.1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -35% auto;
+  width: 180px;
+  height: 180px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+}
+
+.page-hero .eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.82;
+}
+
+.page-hero h1,
+.page-hero h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  line-height: 1.04;
+}
+
+.page-hero p {
+  margin: 0.6rem 0 0;
+  max-width: 38rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.55;
+}
+
+.surface-panel {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  box-shadow: var(--app-shadow-soft);
+}
+
+.empty-state {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--ion-color-medium);
 }

@@ -1,3 +1,9 @@
-ion-title {
-   text-align: center;
- }
+.management-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.management-button {
+  min-height: 60px;
+  --box-shadow: 0 16px 24px rgba(12, 91, 140, 0.18);
+}

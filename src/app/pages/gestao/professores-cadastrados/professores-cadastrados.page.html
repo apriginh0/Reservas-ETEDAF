@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button slot="start" (click)="voltar()">
+    <ion-button slot="start" fill="clear" (click)="voltar()">
       <ion-icon name="chevron-back-outline"></ion-icon>
     </ion-button>
     <ion-title>Professores Cadastrados</ion-title>
@@ -8,19 +8,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <p>Lista de professores cadastrados.</p>
+<ion-content>
+  <div class="page-shell">
+    <section class="page-hero">
+      <p class="eyebrow">Equipe</p>
+      <h1>Perfis aprovados</h1>
+      <p>Visualize os professores cadastrados e altere o nivel de acesso quando necessario.</p>
+    </section>
 
-  <ion-list>
-    <ion-item *ngFor="let user of approvedUsers" class="custom-item">
-      <ion-label color="primary">
-        <p color="primary">{{ user.name }} ({{ user.email }})</p>
-        <p><strong>Função:</strong> {{ user.role }}</p>
-      </ion-label>
-      <ion-button color="primary" (click)="changeRole(user.id, user.role)">
-        Mudar para {{ user.role === 'teacher' ? 'Admin' : 'Teacher' }}
-      </ion-button>
-    </ion-item>
-  </ion-list>
+    <div class="approved-list" *ngIf="approvedUsers.length > 0; else emptyApproved">
+      <article class="approved-card surface-panel" *ngFor="let user of approvedUsers">
+        <div class="user-copy">
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+          <span class="role-badge">{{ user.role }}</span>
+        </div>
+
+        <ion-button color="primary" (click)="changeRole(user.id, user.role)">
+          Mudar para {{ user.role === 'teacher' ? 'Admin' : 'Teacher' }}
+        </ion-button>
+      </article>
+    </div>
+
+    <ng-template #emptyApproved>
+      <div class="empty-state surface-panel">
+        <p>Nenhum professor aprovado foi encontrado.</p>
+      </div>
+    </ng-template>
+  </div>
 </ion-content>
-

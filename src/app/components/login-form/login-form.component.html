@@ -1,24 +1,22 @@
-<form (ngSubmit)="onSubmit()">
-  <ion-item>
+<form class="login-form" (ngSubmit)="onSubmit()">
+  <ion-item class="form-field">
     <ion-label class="labelfont" position="floating">E-mail</ion-label>
     <ion-input type="email" [(ngModel)]="loginData.email" name="email" required></ion-input>
   </ion-item>
 
-  <ion-item>
+  <ion-item class="form-field">
     <ion-label class="labelfont" position="floating">Senha</ion-label>
     <ion-input type="password" [(ngModel)]="loginData.password" name="password" required></ion-input>
   </ion-item>
 
-  <ion-button [disabled]="isLoading" type="submit" color="light">
+  <ion-button class="submit-button" [disabled]="isLoading" type="submit" color="primary">
     <ion-spinner *ngIf="isLoading"></ion-spinner>
     Entrar
   </ion-button>
 
-  <!-- Mensagem de erro caso o login falhe -->
-  <ion-text color="danger" *ngIf="errorMessage">
+  <ion-text class="error-message" color="danger" *ngIf="errorMessage">
     <p>{{ errorMessage }}</p>
   </ion-text>
 
-  <!-- Texto para recuperar senha -->
   <p class="forgot-password" *ngIf="isPasswordRecoveryEnabled" (click)="onForgotPassword()">Esqueci minha senha</p>
 </form>

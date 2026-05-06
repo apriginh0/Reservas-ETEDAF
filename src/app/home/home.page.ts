@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,7 +12,7 @@ export class HomePage implements OnInit, OnDestroy {
   isAdmin: boolean = false;
   private userSub!: Subscription;
 
-  constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.checkUserRole();
@@ -24,9 +23,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.userSub = this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.isAdmin = user?.role === 'admin';
-      },
-      error: (error) => {
-        console.error('Erro ao obter usuário:', error);
       }
     });
   }
@@ -39,10 +35,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   // Navega para uma rota específica
   navigateTo(route: string) {
-    this.router.navigate([route]).then(
-      (success) => console.log('Navegação bem-sucedida:', success),
-      (error) => console.error('Erro na navegação:', error)
-    );
+    this.router.navigate([route]);
   }
 }
 

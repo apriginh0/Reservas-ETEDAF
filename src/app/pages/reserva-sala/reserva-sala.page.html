@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button slot="start" (click)="voltar()">
+    <ion-button slot="start" fill="clear" (click)="voltar()">
       <ion-icon name="chevron-back-outline"></ion-icon>
     </ion-button>
     <ion-title>Reserva de Sala</ion-title>
@@ -9,17 +9,28 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="salas.length > 0; else loading">
-    <ion-list>
-      <ion-item *ngFor="let sala of salas" (click)="selecionarSala(sala.id, sala.name)">
-        <ion-label>{{ sala.name }}</ion-label>
-      </ion-item>
-    </ion-list>
+  <div class="page-shell">
+    <section class="page-hero">
+      <p class="eyebrow">Laboratorios</p>
+      <h1>Escolha um ambiente</h1>
+      <p>Selecione a sala desejada para consultar disponibilidade e registrar o agendamento.</p>
+    </section>
+
+    <div *ngIf="salas.length > 0; else loading" class="room-list">
+      <button type="button" class="room-card surface-panel" *ngFor="let sala of salas" (click)="selecionarSala(sala.id, sala.name)">
+        <div>
+          <p class="room-eyebrow">Espaco disponivel</p>
+          <h2>{{ sala.name }}</h2>
+        </div>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </button>
+    </div>
+
+    <ng-template #loading>
+      <div class="empty-state surface-panel loading-state">
+        <ion-spinner></ion-spinner>
+        <p>Carregando salas...</p>
+      </div>
+    </ng-template>
   </div>
-
-  <ng-template #loading>
-    <ion-spinner></ion-spinner>
-    <p>Carregando salas...</p>
-  </ng-template>
 </ion-content>
-

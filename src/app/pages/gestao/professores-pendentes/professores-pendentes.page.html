@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button slot="start" (click)="voltar()">
+    <ion-button slot="start" fill="clear" (click)="voltar()">
       <ion-icon name="chevron-back-outline"></ion-icon>
     </ion-button>
     <ion-title>Professores Pendentes</ion-title>
@@ -8,24 +8,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-list>
-    <ion-item *ngFor="let user of pendingUsers">
-      <ion-label>
-        <p>{{ user.name }} ({{ user.email }})</p>
-      </ion-label>
+<ion-content>
+  <div class="page-shell">
+    <section class="page-hero">
+      <p class="eyebrow">Validacao</p>
+      <h1>Cadastros aguardando analise</h1>
+      <p>Aprove ou rejeite novas solicitacoes de acesso com rapidez e clareza.</p>
+    </section>
 
-      <ion-grid>
-        <ion-row class="ion-justify-content-center">
-          <ion-col size="auto">
-            <ion-button color="success" (click)="approveUser(user.id)">Aprovar</ion-button>
-          </ion-col>
-          <ion-col size="auto">
-            <ion-button color="danger" (click)="rejectUser(user.id)">Rejeitar</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list>
+    <div class="pending-list" *ngIf="pendingUsers.length > 0; else emptyPending">
+      <article class="pending-card surface-panel" *ngFor="let user of pendingUsers">
+        <div>
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+        </div>
+
+        <div class="actions">
+          <ion-button color="success" (click)="approveUser(user.id)">Aprovar</ion-button>
+          <ion-button color="danger" fill="outline" (click)="rejectUser(user.id)">Rejeitar</ion-button>
+        </div>
+      </article>
+    </div>
+
+    <ng-template #emptyPending>
+      <div class="empty-state surface-panel">
+        <p>Nao ha professores pendentes neste momento.</p>
+      </div>
+    </ng-template>
+  </div>
 </ion-content>
-

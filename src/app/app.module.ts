@@ -12,7 +12,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReservationFormComponent } from './components/reservation-form/reservation-form.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
-import { IonicStorageModule } from '@ionic/storage-angular';
 import { CorsInterceptor } from './interceptors/cors.interceptor';
 
 @NgModule({
@@ -24,7 +23,6 @@ import { CorsInterceptor } from './interceptors/cors.interceptor';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    IonicStorageModule.forRoot(), // Adiciona o Ionic Storage
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule
@@ -33,7 +31,7 @@ import { CorsInterceptor } from './interceptors/cors.interceptor';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CorsInterceptor, multi: true },
-    provideHttpClient()
+    provideHttpClient(withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent],
 })

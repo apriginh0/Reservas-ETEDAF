@@ -6,35 +6,45 @@
 </ion-header>
 
 <ion-content>
-  <div class="container vertical">
-    <ion-card (click)="navigateTo('/reserva-sala')">
-      <ion-card-header>
-        <ion-card-title>Reserva de Sala</ion-card-title>
-      </ion-card-header>
-    </ion-card>
+  <div class="page-shell">
+    <section class="page-hero">
+      <p class="eyebrow">Painel principal</p>
+      <h1>Central de reservas da ETEDAF</h1>
+      <p>Escolha uma area para reservar laboratorios, acompanhar agendamentos ou acessar a gestao administrativa.</p>
+    </section>
 
-    <ion-card (click)="navigateTo('/agendamentos')">
-      <ion-card-header>
-        <ion-card-title>Agendamentos Efetuados</ion-card-title>
-      </ion-card-header>
-    </ion-card>
+    <div class="feature-grid">
+      <button type="button" class="feature-card surface-panel" (click)="navigateTo('/reserva-sala')">
+        <ion-icon name="calendar-clear-outline"></ion-icon>
+        <div>
+          <h2>Reserva de Sala</h2>
+          <p>Selecione o laboratorio, a data e os horarios disponiveis.</p>
+        </div>
+      </button>
 
+      <button type="button" class="feature-card surface-panel" (click)="navigateTo('/agendamentos')">
+        <ion-icon name="reader-outline"></ion-icon>
+        <div>
+          <h2>Agendamentos Efetuados</h2>
+          <p>Consulte reservas ja realizadas e acompanhe os detalhes por dia.</p>
+        </div>
+      </button>
 
-    <ion-card *ngIf="isAdmin" (click)="navigateTo('/gestao')">
-      <ion-card-header>
-        <ion-card-title>Gestão</ion-card-title>
-      </ion-card-header>
-    </ion-card>
+      <button type="button" class="feature-card surface-panel" *ngIf="isAdmin" (click)="navigateTo('/gestao')">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <div>
+          <h2>Gestao</h2>
+          <p>Aprove cadastros, acompanhe professores e administre perfis.</p>
+        </div>
+      </button>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Reserva de Equipamentos <hr>
-          (Em Breve)</ion-card-title>
-      </ion-card-header>
-    </ion-card>
-
+      <div class="feature-card surface-panel feature-card--muted">
+        <ion-icon name="construct-outline"></ion-icon>
+        <div>
+          <h2>Reserva de Equipamentos</h2>
+          <p>Funcionalidade em breve para ampliar o controle de recursos pedagogicos.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>
-
-
-

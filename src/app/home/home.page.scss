@@ -1,16 +1,54 @@
-.vertical {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centraliza os cards horizontalmente */
+.feature-grid {
+  display: grid;
+  gap: 1rem;
 }
 
-ion-card {
-  width: 93%;
-  margin: 0.5rem;
+.feature-card {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
   padding: 1.2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(1, 26, 255, 0.199);
+  text-align: left;
+  border: 0;
+  color: inherit;
+  background: var(--app-surface);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+
+  ion-icon {
+    font-size: 1.7rem;
+    color: var(--ion-color-primary);
+    padding: 0.85rem;
+    border-radius: 18px;
+    background: rgba(12, 91, 140, 0.08);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--ion-color-dark);
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    color: var(--ion-color-medium);
+    line-height: 1.45;
+  }
 }
-ion-card-title{
-  color: #0a0a0a;
+
+.feature-card:active,
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--app-shadow);
+}
+
+.feature-card--muted {
+  opacity: 0.82;
+}
+
+@media (min-width: 860px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

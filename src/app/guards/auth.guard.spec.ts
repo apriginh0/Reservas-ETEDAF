@@ -1,17 +1,48 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-import { authGuard } from './auth.guard';
+import { AuthGuard } from './auth.guard';
+import { AuthService } from '../services/auth.service';
 
-describe('authGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => authGuard(...guardParameters));
+describe('AuthGuard', () => {
+  let guard: AuthGuard;
+  let router: Router;
+  const authServiceMock = {
+    ensureCurrentUser: jasmine.createSpy('ensureCurrentUser'),
+  };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      providers: [
+        AuthGuard,
+        { provide: AuthService, useValue: authServiceMock },
+      ],
+    });
+
+    guard = TestBed.inject(AuthGuard);
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.resolveTo(true);
   });
 
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+  it('allows navigation when there is an authenticated user', (done) => {
+    authServiceMock.ensureCurrentUser.and.returnValue(of({ id: 1, role: 'teacher' }));
+
+    guard.canActivate().subscribe((allowed) => {
+      expect(allowed).toBeTrue();
+      done();
+    });
+  });
+
+  it('redirects to login when there is no authenticated user', (done) => {
+    authServiceMock.ensureCurrentUser.and.returnValue(of(null));
+
+    guard.canActivate().subscribe((allowed) => {
+      expect(allowed).toBeFalse();
+      expect(router.navigate).toHaveBeenCalled();
+      done();
+    });
   });
 });

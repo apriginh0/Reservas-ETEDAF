@@ -1,11 +1,41 @@
-ion-title {
-   text-align: center;
- }
+.room-list {
+  display: grid;
+  gap: 0.9rem;
+}
 
-ion-item {
-  margin: 1rem;
-  padding: 1.2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(1, 26, 255, 0.199);
-  --border-style: none;
+.room-card {
+  width: 100%;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  background: var(--app-surface);
+  text-align: left;
+
+  h2 {
+    margin: 0.15rem 0 0;
+    color: var(--ion-color-dark);
+    font-size: 1.15rem;
+  }
+
+  ion-icon {
+    font-size: 1.4rem;
+    color: var(--ion-color-primary);
+  }
+}
+
+.room-eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: var(--ion-color-medium);
+}
+
+.loading-state {
+  display: grid;
+  gap: 0.8rem;
+  justify-items: center;
+  padding: 2rem 1.5rem;
 }

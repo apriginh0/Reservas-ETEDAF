@@ -1,29 +1,36 @@
-<ion-content class="ion-padding custom-background">
-  <div class="container">
-    <img src="assets/logo.png" alt="Logo" class="logo">
+<ion-content class="auth-page">
+  <div class="auth-shell">
+    <section class="brand-panel surface-panel">
+      <img src="assets/logo.png" alt="Logo" class="logo">
+      <p class="eyebrow">ETEDAF</p>
+      <h1>On Lab</h1>
+      <p class="brand-copy">
+        Reserve laboratorios com mais clareza, acompanhe agendamentos e mantenha a rotina pedagogica organizada.
+      </p>
+    </section>
+
+    <section class="login-panel surface-panel">
+      <p class="eyebrow">Acesso</p>
+      <h2>Entrar na plataforma</h2>
+      <p class="panel-copy">
+        Use seu e-mail institucional aprovado para acessar a central de reservas.
+      </p>
+
+      <app-login-form></app-login-form>
+
+      <div class="forgot-password-container">
+        <a (click)="openForgotPasswordModal()">Esqueci minha senha</a>
+      </div>
+
+      <div class="register-button">
+        <ion-button expand="block" (click)="openRegisterModal()" color="light">Solicitar cadastro</ion-button>
+      </div>
+    </section>
   </div>
 
-  <div class="buttons-container">
-    <div>
-      <app-login-form></app-login-form>
-      <div class="forgot-password-container ion-text-center ion-margin-top">
-        <a (click)="openForgotPasswordModal()"
-          style="cursor: pointer; color: var(--ion-color-medium); text-decoration: underline;">Esqueci minha senha</a>
-      </div>
-    </div>
-    <div class="register-button">
-      <ion-button expand="block" (click)="openRegisterModal()" color="light">CADASTRO</ion-button>
-    </div>
-  </div>
   <div class="privacy-policy">
-    <p>
-      On Lab é um aplicativo independente desenvolvido para facilitar a reserva de laboratórios.
-    </p>
-    <p>
-      Este aplicativo não possui vínculo, afiliação ou endosso de nenhuma instituição pública.
-    </p>
-    <p>
-      Veja mais informações da nossa politica de privacidade <a [routerLink]="'/privacidade'">aqui</a>.
-    </p>
+    <p>On Lab e um aplicativo independente desenvolvido para facilitar a reserva de laboratorios.</p>
+    <p>Este aplicativo nao possui vinculo, afiliacao ou endosso de nenhuma instituicao publica.</p>
+    <p>Veja mais informacoes da nossa politica de privacidade <a [routerLink]="'/privacidade'">aqui</a>.</p>
   </div>
 </ion-content>

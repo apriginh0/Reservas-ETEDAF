@@ -3,14 +3,35 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Location } from '@angular/common';
-import { map, switchMap } from 'rxjs';
+import { EMPTY, map, switchMap } from 'rxjs';
 import { format, previousDay, startOfToday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { ViewChild, ElementRef } from '@angular/core';
 import { Keyboard } from '@capacitor/keyboard';
 import { IonContent } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
-import * as moment from 'moment-timezone';
+function getSaoPauloTimestamp() {
+  const formatter = new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'America/Sao_Paulo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+
+  const parts = formatter
+    .formatToParts(new Date())
+    .filter((part) => part.type !== 'literal')
+    .reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {} as Record<string, string>);
+
+  return `${parts['year']}-${parts['month']}-${parts['day']} ${parts['hour']}:${parts['minute']}:${parts['second']}`;
+}
 
 @Component({
   selector: 'app-calendario',
@@ -44,6 +65,14 @@ export class CalendarioPage implements OnInit {
 
   @ViewChild('componenteCurricularInput', { read: ElementRef })
   componenteCurricularInput!: ElementRef;
+  @ViewChild('selectedDatePanel', { read: ElementRef })
+  selectedDatePanel?: ElementRef<HTMLElement>;
+  @ViewChild('bookingPanel', { read: ElementRef })
+  bookingPanel?: ElementRef<HTMLElement>;
+  @ViewChild('cancelPanel', { read: ElementRef })
+  cancelPanel?: ElementRef<HTMLElement>;
+  @ViewChild('bookingForm', { read: ElementRef })
+  bookingForm?: ElementRef<HTMLElement>;
   @ViewChild(IonContent) ionContent!: IonContent;
 
   constructor(
@@ -117,9 +146,21 @@ export class CalendarioPage implements OnInit {
     const rawDate = new Date(year, month - 1, day); // Criar a data sem ajuste de fuso
     // Formatando a data para o formato brasileiro (DD-MM-YYYY)
     this.selectedDate = format(rawDate, 'yyyy-MM-dd', { locale: ptBR });
+    this.exibirAulas = false;
+    this.exibirAulasReservadas = false;
+    this.scrollToSection(() => this.bookingPanel);
+    this.aulasSelecionadas = [];
+    this.aulasSelecionadasParaCancelar = [];
+    this.componenteCurricular = '';
+    this.anoTurma = '';
+    this.objetivo = '';
+    this.scrollToSection(() => this.selectedDatePanel);
 
     this.authService.getCurrentUser().pipe(
       switchMap(user => {
+        if (!user) {
+          return EMPTY;
+        }
         const userId = user.id;
         return this.apiService.getReservationsByDate(this.selectedDate, this.salaId).pipe(
           map(reservas => ({ reservas, userId }))
@@ -170,6 +211,9 @@ export class CalendarioPage implements OnInit {
 
     this.authService.getCurrentUser().pipe(
       switchMap(user => {
+        if (!user) {
+          return EMPTY;
+        }
         const userId = user.id;
         return this.apiService.getReservationsByDate(this.selectedDate, this.salaId).pipe(
           map(reservas => ({ reservas, userId }))
@@ -231,11 +275,18 @@ export class CalendarioPage implements OnInit {
   abrirOpcoesCancelamento() {
     this.exibirAulasReservadas = true;
     this.exibirAulas = false;
+    this.scrollToSection(() => this.cancelPanel);
+  }
+
+  onAulasSelecionadasChange() {
+    if (this.aulasSelecionadas.length > 0) {
+      this.scrollToSection(() => this.bookingForm);
+    }
   }
 
   agendar() {
     // Obtém a data e hora no fuso horário de São Paulo
-    const createdAt = moment().tz('America/Sao_Paulo').format('YYYY-MM-DD HH:mm:ss');
+    const createdAt = getSaoPauloTimestamp();
 
     const reserva = {
       classId: this.salaId,
@@ -298,6 +349,21 @@ export class CalendarioPage implements OnInit {
       // Scroll para posição centralizada
       this.ionContent.scrollToPoint(0, inputPosition - 150, 300);
     }, 300); // Delay para sincronizar com a abertura do teclado
+  }
+
+  private scrollToSection(getElement: () => ElementRef<HTMLElement> | undefined) {
+    setTimeout(async () => {
+      const target = getElement()?.nativeElement;
+      if (!target || !this.ionContent) {
+        return;
+      }
+
+      const scrollElement = await this.ionContent.getScrollElement();
+      const targetRect = target.getBoundingClientRect();
+      const targetPosition = targetRect.top + scrollElement.scrollTop;
+
+      this.ionContent.scrollToPoint(0, Math.max(targetPosition - 96, 0), 400);
+    }, 250);
   }
 }
 

@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ReactiveFormsModule } from '@angular/forms';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { of } from 'rxjs';
 
 import { RegisterFormComponent } from './register-form.component';
+import { AuthService } from '../../services/auth.service';
 
 describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
@@ -9,8 +12,12 @@ describe('RegisterFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterFormComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [RegisterFormComponent],
+      imports: [ReactiveFormsModule, IonicModule.forRoot()],
+      providers: [
+        { provide: ModalController, useValue: { dismiss: jasmine.createSpy('dismiss') } },
+        { provide: AuthService, useValue: { register: () => of({}) } },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterFormComponent);

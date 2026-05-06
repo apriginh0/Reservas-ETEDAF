@@ -1,21 +1,41 @@
-ion-title {
-   text-align: center;
- }
+.approved-list {
+  display: grid;
+  gap: 1rem;
+}
 
-.custom-item {
-  /* Define o container como flex e ajusta o espaçamento */
-  display: flex;
-  justify-content: space-between;
+.approved-card {
+  padding: 1.2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.user-copy h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--ion-color-dark);
+}
+
+.user-copy p {
+  margin: 0.35rem 0 0.75rem;
+  color: var(--ion-color-medium);
+}
+
+.role-badge {
+  display: inline-flex;
   align-items: center;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(12, 91, 140, 0.1);
+  color: var(--ion-color-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
 
-  /* Ajusta a largura do ion-label e ion-button */
-  ion-label {
-    flex: 0 0 60%; /* flex-grow | flex-shrink | flex-basis */
-    max-width: 60%; /* Garante que não ultrapasse 60% */
-  }
-
-  ion-button {
-    flex: 0 0 38%;
-    max-width: 38%;
+@media (min-width: 860px) {
+  .approved-card {
+    grid-template-columns: 1fr auto;
+    align-items: center;
   }
 }
