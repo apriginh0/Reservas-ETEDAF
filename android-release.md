@@ -16,6 +16,7 @@ Este arquivo resume o processo recomendado para gerar, validar e publicar a prox
 - build web sincronizado com o projeto Android via Capacitor
 - `allowBackup` desativado no `AndroidManifest.xml`
 - `usesCleartextTraffic` desativado no `AndroidManifest.xml`
+- `usesCleartextTraffic` liberado apenas no `debug`, para testes locais no emulador
 - scripts adicionados no `package.json` para facilitar build e sincronizacao
 
 ## Antes de abrir o Android Studio
@@ -28,6 +29,9 @@ Este arquivo resume o processo recomendado para gerar, validar e publicar a prox
    - `NODE_ENV=production`
    - `FRONTEND_URL=https://www.etedaf.com.br`
    - `REFRESH_TOKEN_EXPIRES_IN=15d`
+   - `ANDROID_MINIMUM_SUPPORTED_VERSION=2.2`
+   - `ANDROID_LATEST_VERSION=2.2`
+   - `ANDROID_STORE_URL=https://play.google.com/store/apps/details?id=br.com.etedaf.reservas`
 
 ## Teste no emulador
 
@@ -55,10 +59,18 @@ Se voce quer validar o app Android contra o backend local antes do deploy, use o
    - rolagem automatica ao tocar em `Cancelar aula`
 
 Observacoes:
-- nesse modo, o app usa `http://10.0.2.2:5000/api`
-- no emulador Android, `localhost` aponta para o proprio emulador
-- `10.0.2.2` e o alias correto para acessar o seu computador hospedeiro
+- nesse modo, o app usa `http://localhost:5000/api`
+- antes de abrir o app no emulador, execute:
+  - `adb reverse tcp:5000 tcp:5000`
+- esse comando faz o `localhost` do emulador apontar para a porta `5000` do seu computador
 - para validar a configuracao exata de producao antes da publicacao, rode `npm run build:android`
+
+## Como funciona a exigencia de atualizacao
+
+- o app Android consulta `GET /api/app/bootstrap` ao iniciar
+- se a versao instalada estiver abaixo de `ANDROID_MINIMUM_SUPPORTED_VERSION`, o uso normal e bloqueado
+- para permitir que uma versao antiga continue funcionando por algum tempo, basta manter a versao minima antiga no Render
+- para obrigar a atualizacao depois da publicacao, basta subir `ANDROID_MINIMUM_SUPPORTED_VERSION` para a nova versao
 
 ## Gerar o AAB no Android Studio
 

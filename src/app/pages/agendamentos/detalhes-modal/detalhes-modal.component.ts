@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
 import { ModalController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 
 interface Professor {
   id: number;
@@ -43,9 +43,9 @@ export class DetalhesModalComponent implements OnInit {
       if (reserva) {
         const user = professores.find(u => u.id === reserva.teacherId);
         return { aula, professor: user?.name || 'Desconhecido' };
-      } else {
-        return { aula, professor: 'Disponível' };
       }
+
+      return { aula, professor: 'Disponível' };
     });
   }
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 
@@ -28,7 +28,6 @@ export class RegisterFormComponent {
     );
   }
 
-  // Validação personalizada para confirmar senha
   checkPasswords(group: AbstractControl): { [key: string]: any } | null {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
@@ -40,13 +39,13 @@ export class RegisterFormComponent {
       const formData = this.registerForm.value;
 
       this.authService.register(formData).subscribe({
-        next: (response) => {
-          alert('Cadastro realizado com sucesso!');
+        next: () => {
+          alert('Solicitação de cadastro enviada com sucesso!');
           this.closeModal();
         },
         error: (error) => {
           console.error('Erro no registro:', error);
-          alert('Erro ao realizar o cadastro.');
+          alert('Erro ao enviar a solicitação de cadastro.');
         },
       });
     }

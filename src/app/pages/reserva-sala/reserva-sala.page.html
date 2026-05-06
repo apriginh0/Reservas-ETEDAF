@@ -11,7 +11,7 @@
 <ion-content>
   <div class="page-shell">
     <section class="page-hero">
-      <p class="eyebrow">Laboratorios</p>
+      <p class="eyebrow">Laboratórios</p>
       <h1>Escolha um ambiente</h1>
       <p>Selecione a sala desejada para consultar disponibilidade e registrar o agendamento.</p>
     </section>
@@ -19,7 +19,7 @@
     <div *ngIf="salas.length > 0; else loading" class="room-list">
       <button type="button" class="room-card surface-panel" *ngFor="let sala of salas" (click)="selecionarSala(sala.id, sala.name)">
         <div>
-          <p class="room-eyebrow">Espaco disponivel</p>
+          <p class="room-eyebrow">Espaço disponível</p>
           <h2>{{ sala.name }}</h2>
         </div>
         <ion-icon name="arrow-forward-outline"></ion-icon>

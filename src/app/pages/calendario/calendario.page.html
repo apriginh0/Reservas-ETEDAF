@@ -3,7 +3,7 @@
     <ion-button slot="start" fill="clear" (click)="voltar()">
       <ion-icon name="chevron-back-outline"></ion-icon>
     </ion-button>
-    <ion-title>Selecione a Data</ion-title>
+    <ion-title>Selecione a data</ion-title>
     <app-logout-button slot="end"></app-logout-button>
   </ion-toolbar>
 </ion-header>
@@ -12,12 +12,12 @@
   <div class="page-shell calendar-shell">
     <section class="page-hero">
       <p class="eyebrow">Agendamento</p>
-      <h1>{{ salaNome || 'Reserva de laboratorio' }}</h1>
+      <h1>{{ salaNome || 'Reserva de laboratório' }}</h1>
       <p>{{ breadcrumb }}</p>
     </section>
 
     <section class="calendar-panel surface-panel">
-      <p class="section-label">Escolha uma data dentro da semana disponivel</p>
+      <p class="section-label">Escolha uma data dentro da semana disponível</p>
       <ion-item class="calendar-field">
         <ion-datetime
           id="dataSelecionada"
@@ -36,14 +36,14 @@
       <p>{{ selectedDate | date: 'dd/MM/yyyy' }}</p>
       <div class="buttons-container">
         <ion-button (click)="abrirOpcoesAulas()">Escolher aulas</ion-button>
-        <ion-button color="danger" fill="outline" (click)="abrirOpcoesCancelamento()">Cancelar aula</ion-button>
+        <ion-button color="danger" fill="outline" (click)="abrirOpcoesCancelamento()">Cancelar aulas</ion-button>
       </div>
     </div>
 
     <section *ngIf="exibirAulasReservadas" #cancelPanel class="surface-panel booking-panel">
       <p class="section-label">Selecione as aulas reservadas para cancelar</p>
       <ion-item class="calendar-field">
-        <ion-label slot="start" for="aulasReservadasSelecionadas">Aulas Reservadas</ion-label>
+        <ion-label slot="start" for="aulasReservadasSelecionadas">Aulas reservadas</ion-label>
         <ion-select
           id="aulasReservadasSelecionadas"
           name="aulasReservadasSelecionadas"
@@ -67,7 +67,7 @@
     </section>
 
     <section *ngIf="exibirAulas" #bookingPanel class="surface-panel booking-panel">
-      <p class="section-label">Monte a reserva da aula</p>
+      <p class="section-label">Monte a reserva das aulas</p>
 
       <ion-item class="calendar-field">
         <ion-label slot="start" for="aulasSelecionadas">Aulas</ion-label>

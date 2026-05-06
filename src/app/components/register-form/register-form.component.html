@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Cadastro</ion-title>
+    <ion-title>Solicitar cadastro</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">Fechar</ion-button>
     </ion-buttons>
@@ -20,7 +20,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Confirmar E-mail</ion-label>
+      <ion-label position="floating">Confirmar e-mail</ion-label>
       <ion-input type="email" formControlName="confirmEmail"></ion-input>
     </ion-item>
 
@@ -30,13 +30,13 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Confirmar Senha</ion-label>
+      <ion-label position="floating">Confirmar senha</ion-label>
       <ion-input type="password" formControlName="confirmPassword"></ion-input>
     </ion-item>
 
     <div class="register-buttons">
       <ion-button type="submit" expand="block" [disabled]="registerForm.invalid">
-        Cadastrar
+        Enviar solicitação
       </ion-button>
     </div>
   </form>

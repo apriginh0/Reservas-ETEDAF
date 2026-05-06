@@ -43,6 +43,12 @@ Permitir que professores e administradores:
 - o estado de usuário é hidratado via `/api/auth/me`;
 - mudanças em autenticação devem ser testadas junto com o backend local.
 
+## Política de atualização do app
+
+- o aplicativo Android consulta `GET /api/app/bootstrap` na inicialização;
+- quando a versão instalada estiver abaixo da mínima definida no backend, o uso normal é bloqueado até a atualização;
+- a política de versão é controlada no backend por variáveis de ambiente, sem precisar publicar uma nova build só para exigir upgrade.
+
 ## Documentação do projeto
 
 - `CLAUDE.md`: protocolo operacional de trabalho

@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
-  // Android emulators access the host machine through 10.0.2.2 instead of localhost.
-  apiUrl: 'http://10.0.2.2:5000/api'
+  // Use localhost in the WebView so auth cookies remain same-site. The emulator
+  // must expose the host backend through `adb reverse tcp:5000 tcp:5000`.
+  apiUrl: 'http://localhost:5000/api'
 };

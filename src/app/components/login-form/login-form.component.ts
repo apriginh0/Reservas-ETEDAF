@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -14,7 +14,7 @@ export class LoginFormComponent {
     password: '',
   };
   isPasswordRecoveryEnabled = false;
-  isLoading = false; // Controle de estado de carregamento
+  isLoading = false;
   errorMessage: string = '';
 
   constructor(
@@ -23,24 +23,22 @@ export class LoginFormComponent {
   ) {}
 
   onSubmit() {
-    // Validação básica
     if (!this.loginData.email || !this.loginData.password) {
-      this.errorMessage = 'Preencha todos os campos obrigatórios!';
+      this.errorMessage = 'Preencha todos os campos obrigatórios.';
       return;
     }
 
-    this.isLoading = true; // Ativa spinner/loading
+    this.isLoading = true;
     this.errorMessage = '';
 
     const email = this.loginData.email.trim().toLowerCase();
     this.authService.login(email, this.loginData.password)
       .pipe(
-        finalize(() => this.isLoading = false) // Desativa spinner em qualquer caso
+        finalize(() => this.isLoading = false)
       )
       .subscribe({
         next: () => {
-          // Navega após confirmar que o usuário está carregado
-          this.router.navigate(['/home'])
+          this.router.navigate(['/home']);
         },
         error: (err) => {
           console.error('Erro no login:', err);
@@ -74,15 +72,16 @@ export class LoginFormComponent {
   }
 
   private handleLoginError(err: any) {
-    // Mensagens de erro específicas
     if (err.status === 401) {
-      this.errorMessage = 'E-mail ou senha incorretos!';
-    } else if (err.status === 0) {
-      this.errorMessage = 'Sem conexão com o servidor. Tente novamente mais tarde.';
-    } else {
-      this.errorMessage = 'Erro inesperado. Tente novamente.';
+      this.errorMessage = 'E-mail ou senha incorretos.';
+      return;
     }
+
+    if (err.status === 0) {
+      this.errorMessage = 'Sem conexão com o servidor. Tente novamente mais tarde.';
+      return;
+    }
+
+    this.errorMessage = err?.error?.message || 'Erro inesperado. Tente novamente.';
   }
 }
-
-

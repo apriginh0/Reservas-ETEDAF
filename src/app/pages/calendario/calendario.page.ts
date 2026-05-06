@@ -270,6 +270,8 @@ export class CalendarioPage implements OnInit {
 
     this.exibirAulas = true; // Mostra as opções de aula
     this.exibirAulasReservadas = false;
+    this.aulasSelecionadasParaCancelar = [];
+    this.scrollToSection(() => this.bookingPanel);
   }
 
   abrirOpcoesCancelamento() {
