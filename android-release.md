@@ -1,0 +1,114 @@
+# Guia de Release Android
+
+Este arquivo resume o processo recomendado para gerar, validar e publicar a proxima atualizacao Android do app.
+
+## Estado atual da release
+
+- `versionCode`: `7`
+- `versionName`: `2.2`
+- `applicationId`: `br.com.etedaf.reservas`
+- ambiente de producao do app: `https://reservas-etedaf-api.onrender.com/api`
+
+## O que ja foi preparado no projeto
+
+- sessao mais estavel para uso no app, com `refresh token` de longa duracao
+- ajuste de rolagem automatica nas telas do calendario
+- build web sincronizado com o projeto Android via Capacitor
+- `allowBackup` desativado no `AndroidManifest.xml`
+- `usesCleartextTraffic` desativado no `AndroidManifest.xml`
+- scripts adicionados no `package.json` para facilitar build e sincronizacao
+
+## Antes de abrir o Android Studio
+
+1. No projeto Ionic, rode:
+   - `npm run test:ci`
+   - `npm run build:android`
+2. Confirme que o backend de producao ja contem as mudancas necessarias para esta versao.
+3. Confirme que o Render esta com:
+   - `NODE_ENV=production`
+   - `FRONTEND_URL=https://www.etedaf.com.br`
+   - `REFRESH_TOKEN_EXPIRES_IN=15d`
+
+## Teste no emulador
+
+1. Abra o projeto Android:
+   - `npm run cap:open:android`
+2. Espere o Gradle Sync terminar.
+3. Escolha um emulador Android.
+4. Rode o app em modo `debug`.
+5. Valide pelo menos estes fluxos:
+   - login
+   - restauracao de sessao ao fechar e abrir o app
+   - criacao de reserva
+   - edicao da propria reserva
+   - bloqueio de alteracao de reserva alheia
+   - cancelamento de reserva
+   - area administrativa
+   - fluxo de redefinicao de senha
+   - rolagem automatica ao selecionar data
+   - rolagem automatica ao tocar em `Escolher aulas`
+   - rolagem automatica ao tocar em `Cancelar aula`
+
+## Gerar o AAB no Android Studio
+
+1. No Android Studio, abra o modulo `android`.
+2. No menu superior, clique em:
+   - `Build` -> `Generate Signed Bundle / APK...`
+3. Escolha:
+   - `Android App Bundle`
+4. Clique em `Next`.
+5. Selecione a mesma `keystore` usada nas versoes anteriores.
+6. Preencha:
+   - `Key store path`
+   - `Password`
+   - `Key alias`
+   - `Key password`
+7. Clique em `Next`.
+8. Marque:
+   - `release`
+9. Clique em `Create`.
+10. Espere o Android Studio finalizar a geracao.
+
+Observacao:
+- o Android Studio costuma exibir um link clicavel com o caminho final do arquivo gerado
+- um caminho comum e `android/app/build/outputs/bundle/release/app-release.aab`
+
+## O que conferir antes de subir o AAB
+
+- `versionCode` maior que o da ultima versao publicada
+- `versionName` coerente com a release
+- `applicationId` inalterado
+- assinatura feita com a mesma keystore da versao anterior
+- app abrindo e autenticando normalmente no emulador
+- nenhuma URL local como `localhost` presente no build de producao
+
+## Subir o AAB para a Play Store
+
+1. Acesse o [Google Play Console](https://play.google.com/console/).
+2. Abra o aplicativo correto.
+3. No menu lateral, escolha a trilha que voce vai usar.
+   Recomendacao:
+   - primeiro `Teste interno`, se quiser validar rapidamente no celular
+   - depois `Producao`, quando estiver seguro
+4. Clique em `Criar nova versao`.
+5. Envie o arquivo `.aab`.
+6. Aguarde o processamento do bundle.
+7. Preencha as notas da versao.
+8. Revise os avisos que o Play Console mostrar.
+9. Salve.
+10. Envie para revisao ou publique, conforme a trilha escolhida.
+
+## Recomendacao de rollout
+
+Se esta atualizacao mexe com autenticacao, reservas e experiencia mobile, o caminho mais seguro e:
+
+1. publicar primeiro em `Teste interno`
+2. validar com 1 ou 2 aparelhos reais
+3. depois promover para `Producao`
+
+## Comandos uteis
+
+- `npm run test:ci`
+- `npm run build:android`
+- `npm run cap:sync`
+- `npm run cap:open:android`
