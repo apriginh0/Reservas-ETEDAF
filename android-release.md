@@ -4,8 +4,8 @@ Este arquivo resume o processo recomendado para gerar, validar e publicar a prox
 
 ## Estado atual da release
 
-- `versionCode`: `7`
-- `versionName`: `2.2`
+- `versionCode`: `8`
+- `versionName`: `2.3`
 - `applicationId`: `br.com.etedaf.reservas`
 - ambiente de producao do app: `https://reservas-etedaf-api.onrender.com/api`
 - origem WebView em producao: `https://localhost`
@@ -31,8 +31,8 @@ Este arquivo resume o processo recomendado para gerar, validar e publicar a prox
    - `NODE_ENV=production`
    - `FRONTEND_URL=https://www.etedaf.com.br`
    - `REFRESH_TOKEN_EXPIRES_IN=15d`
-   - `ANDROID_MINIMUM_SUPPORTED_VERSION=2.2`
-   - `ANDROID_LATEST_VERSION=2.2`
+   - `ANDROID_MINIMUM_SUPPORTED_VERSION=2.3`
+   - `ANDROID_LATEST_VERSION=2.3`
    - `ANDROID_STORE_URL=https://play.google.com/store/apps/details?id=br.com.etedaf.reservas`
 
 ## Teste no emulador
