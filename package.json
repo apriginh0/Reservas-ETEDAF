@@ -13,7 +13,7 @@
     "cap:open:android": "npx cap open android",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox",
     "lint": "ng lint"
   },
   "private": true,
