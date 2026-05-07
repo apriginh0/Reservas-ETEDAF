@@ -8,6 +8,7 @@ Este arquivo resume o processo recomendado para gerar, validar e publicar a prox
 - `versionName`: `2.2`
 - `applicationId`: `br.com.etedaf.reservas`
 - ambiente de producao do app: `https://reservas-etedaf-api.onrender.com/api`
+- origem WebView em producao: `https://localhost`
 
 ## O que ja foi preparado no projeto
 
@@ -17,6 +18,7 @@ Este arquivo resume o processo recomendado para gerar, validar e publicar a prox
 - `allowBackup` desativado no `AndroidManifest.xml`
 - `usesCleartextTraffic` desativado no `AndroidManifest.xml`
 - `usesCleartextTraffic` liberado apenas no `debug`, para testes locais no emulador
+- WebView de producao mantida em `https://localhost` para compatibilidade com cookies seguros
 - scripts adicionados no `package.json` para facilitar build e sincronizacao
 
 ## Antes de abrir o Android Studio
@@ -39,6 +41,7 @@ Se voce quer validar o app Android contra o backend local antes do deploy, use o
 
 1. Deixe o backend local rodando na porta `5000`.
 2. No projeto Ionic, rode:
+   - no PowerShell: `$env:CAPACITOR_ANDROID_SCHEME='http'`
    - `npm run build:android:emulator`
 3. Abra o projeto Android:
    - `npm run cap:open:android`
@@ -60,10 +63,13 @@ Se voce quer validar o app Android contra o backend local antes do deploy, use o
 
 Observacoes:
 - nesse modo, o app usa `http://localhost:5000/api`
+- nesse modo, a WebView Android fica em `http://localhost`
 - antes de abrir o app no emulador, execute:
   - `adb reverse tcp:5000 tcp:5000`
 - esse comando faz o `localhost` do emulador apontar para a porta `5000` do seu computador
 - para validar a configuracao exata de producao antes da publicacao, rode `npm run build:android`
+- depois de terminar o teste local, feche o terminal ou remova a variavel com:
+  - `Remove-Item Env:CAPACITOR_ANDROID_SCHEME`
 
 ## Como funciona a exigencia de atualizacao
 
